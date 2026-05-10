@@ -1,0 +1,48 @@
+{% load static %}
+
+<!-- HOT DEAL SECTION -->
+<div id="hot-deal" class="section py-5 my-4" style="background: linear-gradient(45deg, #1a1a1a 30%, #333 100%); border-radius: 0px; overflow: hidden; position: relative;">
+    <!-- Dekorasi Latar Belakang (Opsional) -->
+    <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: rgba(255, 193, 7, 0.1); border-radius: 50%;"></div>
+    
+    <div class="container position-relative">
+        <div class="row align-items-center">
+            <div class="col-md-12 text-center">
+                <div class="hot-deal">
+                    <!-- Timer atau Badge (Opsional, buat kesan urgent) -->
+                    <span class="badge bg-warning text-dark mb-3 px-3 py-2 fw-bold text-uppercase" style="letter-spacing: 2px;">
+                        <i class="fas fa-bolt me-1"></i> Flash Sale
+                    </span>
+                    
+                    <h2 class="text-uppercase fw-black text-white mb-2" style="font-size: 2.5rem; letter-spacing: -1px;">
+                        PROMO <span class="text-warning">HARI INI</span>
+                    </h2>
+                    
+                    <p class="text-light opacity-75 mb-4" style="font-size: 1.1rem;">
+                        Dapatkan Laptop Impian dengan Diskon Hingga <span class="fw-bold text-warning">30% OFF</span>
+                    </p>
+                    
+                    <!-- Tombol dengan Efek Hover -->
+                    <a class="btn btn-warning btn-lg fw-bold px-5 py-3 rounded-pill shadow" href="#" style="transition: all 0.3s ease;">
+                        LIHAT PROMO <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Animasi kecil agar tombol lebih hidup */
+    .hot-deal .btn:hover {
+        transform: scale(1.05);
+        background-color: #ffca2c;
+        box-shadow: 0 10px 20px rgba(255, 193, 7, 0.3) !important;
+    }
+    
+    /* Font tebal untuk heading */
+    .fw-black {
+        font-weight: 900;
+    }
+</style>
+<!-- /HOT DEAL SECTION -->

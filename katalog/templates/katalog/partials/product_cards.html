@@ -1,0 +1,111 @@
+{% for p in products %}
+{% load humanize %}
+
+<div class="col px-2 mb-3">
+    <!-- Link tetap aktif agar user bisa lihat spek produk yang sudah laku sebagai referensi -->
+    <a href="{% url 'product_detail' p.slug %}" class="text-decoration-none text-dark">
+        <div class="card h-100 border-0 shadow-sm card-shopee" style="border-radius: 4px; overflow: hidden;">
+            <!-- Gambar Produk -->
+            <div class="position-relative">
+                <!-- Tambahkan filter grayscale jika stok 0 -->
+                <img src="{{ p.image.url }}" class="card-img-top" 
+                     style="aspect-ratio: 1/1; object-fit: cover; {% if p.stock <= 0 %} filter: grayscale(100%) opacity(0.6); {% endif %}">
+
+                <!-- Overlay Label SOLD OUT -->
+                {% if p.stock <= 0 %}
+                <div class="position-absolute top-50 start-50 translate-middle w-100 text-center">
+                    <span class="badge bg-dark px-3 py-2 shadow-lg" style="opacity: 0.9; font-size: 14px; border: 2px solid #fff;">SOLD OUT</span>
+                </div>
+                {% endif %}
+
+                <!-- Label New Arrival (Hanya tampil jika stok ada) -->
+                {% if p.is_new_product and p.stock > 0 %}
+                <div class="position-absolute top-0 start-0 bg-success px-2 py-1 text-white fw-bold"
+                    style="font-size: 10px;">
+                    New Arrival
+                </div>
+                {% endif %}
+
+                <!-- Badge Condition -->
+                <div class="position-absolute bottom-0 start-0 m-2">
+                    <span class="badge opacity-85 
+                        {% if p.condition == 'NEW' %} bg-danger 
+                        {% elif p.condition == 'AA+' %} bg-info 
+                        {% else %} bg-dark {% endif %}" style="font-size: 9px;">
+                        {{ p.get_condition_display }}
+                    </span>
+                </div>
+
+                <!-- Diskon Label (Sembunyikan jika Sold) -->
+                {% if p.is_sale and p.discount_percent > 0 and p.stock > 0 %}
+                <div class="position-absolute top-0 end-0 bg-warning px-2 py-1 small fw-bold"
+                    style="color: #ee4d2d; border-bottom-left-radius: 10px;">
+                    {{ p.discount_percent }}% OFF
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="card-body p-2 d-flex flex-column">
+
+                <!-- Menampilkan SKU -->
+                <div class="d-flex gap-3 mb-1">
+                    <span class="badge bg-light text-dark border">
+                        <i class="fas fa-barcode me-1 text-muted"></i> SKU: {{ p.sku|default:"-" }}
+                    </span>
+                </div>
+                
+                <!-- Nama Produk -->
+                <h4 class="card-title mb-1 fw-bold {% if p.stock <= 0 %} text-muted {% endif %}"
+                    style="font-size: 13px; height: 36px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                    {{ p.name }}
+                </h4>
+
+                <!-- Info Garansi (Satu Baris) -->
+                <div class="mb-1 d-flex align-items-center text-success" style="font-size: 0.7rem;">
+                    <i class="fas fa-shield-alt me-1"></i>
+                    <span>Garansi: {{ p.get_garansi_display }}</span>
+                </div>
+
+
+                <!-- Info Harga -->
+                <div class="mt-auto d-flex justify-content-between align-items-center">
+                    {% if p.is_sale and p.old_price %}
+                        <div class="text-muted text-decoration-line-through ms-2" 
+                            style="font-size: 10px;">
+                            Rp {{ p.old_price|intcomma }}
+                        </div>
+                        
+                    {% endif %}
+                    <div class="fw-bold" 
+                        style="color: {% if p.stock <= 0 %} #6c757d {% else %} #ee4d2d {% endif %}; font-size: 15px;">
+                        Rp {{ p.price|intcomma }}
+                    </div>
+
+
+                </div>
+
+
+
+                
+                <div class="d-flex justify-content-between align-items-center mt-2 border-top pt-2"
+                    style="font-size: 10px; color: rgba(0,0,0,.54);">
+
+                    <span>
+                        {% if p.stock > 0 %}
+                            <i class="fas fa-check-circle text-success"></i> Stok {{ p.stock }}
+                        {% else %}
+                            <i class="fas fa-times-circle text-danger"></i> Habis Terjual
+                        {% endif %}
+                    </span>
+                    <span><i class="fas fa-tags"></i> {{ p.category.name }}</span>
+                </div>
+
+                {% if request.headers.HX_Request %}
+                    {% include 'katalog/partials/filter_button.html' %}
+                {% endif %}
+
+            </div>
+        </div>
+    </a>
+</div>
+{% endfor %}

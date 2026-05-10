@@ -1,0 +1,30 @@
+{% load static %}
+{% load breadcrumb_tags %}
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a href="/">Beranda</a></li>
+
+                    {# Gunakan list comprehension sederhana via filter split #}
+                    {% for segment in request.path.split %}
+                        {% if segment %} {# Ini akan memfilter string kosong agar tidak muncul // #}
+                            {% if forloop.last %}
+                                <li class="active">{{ segment|replace_dash|title }}</li>
+                            {% else %}
+                                <li>
+                                    <a href="{{ request.path|slice_url:forloop.counter }}">
+                                        {{ segment|replace_dash|title }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

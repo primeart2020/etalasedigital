@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% load breadcrumb_tags %} <!-- Load filter breadcumbs -->
+
+{% block content %}
+{% include 'katalog/partials/hot_deal.html' %}
+
+
+<div id="main-content">
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Sidebar Filter (Desktop Only) -->
+            <div class="col-lg-3 d-none d-lg-block">
+                <div class="card border-0 shadow-sm p-3">
+                    <h5 class="fw-bold mb-3">Kategori</h5>
+                    <ul class="list-group list-group-flush">
+                        {% for cat in categories %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="category" value="{{ cat.id }}"
+                                    hx-get="{% url 'store' %}" hx-target="#product-list" hx-trigger="change">
+                                <label class="form-check-label">{{ cat.name }}</label>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Store Area -->
+            <div class="col-lg-9">
+                <!-- Filter & Sort Bar -->
+                <div class="d-flex justify-content-between align-items-center mb-3 bg-white p-2 rounded shadow-sm">
+                    <!-- Tombol Filter Mobile dengan Indikator Aktif -->
+                    <div id="filter-button-container">
+                        {% include 'katalog/partials/filter_button.html' %}
+                    </div>
+
+                    <div class="d-flex align-items-center ms-auto">
+                        <span class="small me-2 d-none d-sm-inline">Urutkan:</span>
+                        <select class="form-select form-select-sm border-0 bg-light" name="sort"
+                            hx-get="{% url 'store' %}" hx-target="#product-list" hx-trigger="change"
+                            hx-include="#filter-form, #mobile-filter-form" hx-push-url="true">
+                            <!-- Tambahkan ini agar URL di browser ikut berubah -->
+
+                            <option value="latest" {% if request.GET.sort == 'latest' %}selected{% endif %}>Terbaru
+                            </option>
+                            <option value="price_low" {% if request.GET.sort == 'price_low' %}selected{% endif %}>Harga
+                                Terendah</option>
+                            <option value="price_high" {% if request.GET.sort == 'price_high' %}selected{% endif %}>Harga
+                                Tertinggi</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Bagian yang akan di-update oleh HTMX -->
+                <div id="product-list" class="row row-cols-2 row-cols-md-3 g-3">
+                    {% include 'katalog/partials/product_cards.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Filter Mobile -->
+    <div class="modal fade" id="filterModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-bottom">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-sliders-h me-2"></i>Filter Laptop</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form id="mobile-filter-form" hx-get="{% url 'store' %}" hx-target="#product-list" hx-push-url="true">
+                    <div class="modal-body">
+                        <!-- RENTANG HARGA -->
+                        <div class="mb-4">
+                            <label class="fw-bold small mb-2 d-block text-uppercase text-muted">Rentang Harga
+                                (Rp)</label>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text bg-light border-end-0 text-muted">Min</span>
+                                        <input type="number" name="min_price"
+                                            class="form-control border-start-0 shadow-none" placeholder="0"
+                                            value="{{ request.GET.min_price }}">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text bg-light border-end-0 text-muted">Max</span>
+                                        <input type="number" name="max_price"
+                                            class="form-control border-start-0 shadow-none" placeholder="Tanpa Batas"
+                                            value="{{ request.GET.max_price }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- KATEGORI -->
+                        <div class="mb-4">
+                            <label class="fw-bold mb-2 d-block text-uppercase text-muted" style="font-size: 0.7rem; letter-spacing: 1px;">Kategori</label>
+                            <div class="row row-cols-2 g-2">
+                                {% for category in categories %}
+                                <div class="col">
+                                    <input type="checkbox" class="btn-check" name="category" value="{{ category.id }}" 
+                                        id="m-cat-{{ category.id }}"
+                                        {% if category.id|stringformat:"i" in request.GET.getlist %}checked{% endif %}>
+                                    <label class="btn btn-outline-secondary btn-sm w-100 text-truncate py-1 px-1" 
+                                        for="m-cat-{{ category.id }}" 
+                                        style="font-size: 0.75rem; border-radius: 6px;">
+                                        {{ category.name }}
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FOOTER DENGAN TOMBOL RESET & TERAPKAN -->
+                    <div class="modal-footer bg-light border-top d-flex">
+                        <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold small"
+                            onclick="resetMobileFilter()">
+                            Reset
+                        </button>
+                        <button type="submit" class="btn btn-danger flex-grow-1 fw-bold shadow-sm"
+                            data-bs-dismiss="modal">
+                            Filter
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function resetMobileFilter() {
+        const form = document.getElementById('mobile-filter-form');
+
+        // Reset semua input text & number
+        form.querySelectorAll('input[type="number"]').forEach(input => input.value = '');
+
+        // Uncheck semua checkbox
+        form.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
+
+        // Otomatis kirim form yang sudah kosong ke HTMX untuk refresh list produk
+        htmx.trigger(form, 'submit');
+
+        // Tutup modal (Opsional, jika ingin user melihat perubahannya langsung bisa biarkan terbuka)
+        bootstrap.Modal.getInstance(document.getElementById('filterModal')).hide();
+    }
+</script>
+
+<style>
+    /* Mengubah tampilan checkbox menjadi tombol agar lebih mudah diklik di HP */
+    .btn-check:checked+.btn-outline-secondary {
+        background-color: #ee4d2d;
+        border-color: #ee4d2d;
+        color: white;
+    }
+
+    .input-group-text {
+        font-size: 0.75rem;
+    }
+/* Tambahkan ini di bagian <style> jika ingin list bisa di-scroll */
+.modal-body {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.btn-danger {
+    background-color: #ee4d2d !important; /* Warna khas Shopee/Orange-Red */
+    border-color: #ee4d2d !important;
+}
+
+/* Animasi kecil supaya badge indikator terlihat hidup */
+.badge.rounded-pill {
+    animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.1); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+</style>
+{% endblock %}
