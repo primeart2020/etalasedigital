@@ -1,7 +1,8 @@
-{% for p in products %}
 {% load humanize %}
 
-<div class="col px-2 mb-3">
+{% for p in products %}
+
+<div class="card-body p-2 d-flex flex-column">
     <!-- Link tetap aktif agar user bisa lihat spek produk yang sudah laku sebagai referensi -->
     <a href="{% url 'product_detail' p.slug %}" class="text-decoration-none text-dark">
         <div class="card h-100 border-0 shadow-sm card-shopee" style="border-radius: 4px; overflow: hidden;">
@@ -37,12 +38,21 @@
                 </div>
 
                 <!-- Diskon Label (Sembunyikan jika Sold) -->
-                {% if p.is_sale and p.discount_percent > 0 and p.stock > 0 %}
-                <div class="position-absolute top-0 end-0 bg-warning px-2 py-1 small fw-bold"
-                    style="color: #ee4d2d; border-bottom-left-radius: 10px;">
-                    {{ p.discount_percent }}% OFF
-                </div>
-                {% endif %}
+<!-- Label Status Harga (Naik/Turun) -->
+<!-- Label Status Harga di Thumbnail -->
+{% if p.old_price and p.old_price != p.price and p.stock > 0 %}
+    {% if p.is_price_up %}
+        <div class="position-absolute top-0 end-0 bg-danger px-2 py-1 small fw-bold text-white d-flex align-items-center"
+             style="border-bottom-left-radius: 10px; z-index: 10;">
+            <i class="bi bi-caret-up-fill me-1"></i> Naik {{ p.price_diff_percent }}% 
+        </div>
+    {% else %}
+        <div class="position-absolute top-0 end-0 bg-warning px-2 py-1 small fw-bold d-flex align-items-center"
+             style="color: #ee4d2d; border-bottom-left-radius: 10px; z-index: 10;">
+            <i class="bi bi-caret-down-fill me-1"></i> Disc {{ p.price_diff_percent }}%
+        </div>
+    {% endif %}
+{% endif %}
             </div>
 
             <div class="card-body p-2 d-flex flex-column">
@@ -54,11 +64,39 @@
                     </span>
                 </div>
                 
-                <!-- Nama Produk -->
-                <h4 class="card-title mb-1 fw-bold {% if p.stock <= 0 %} text-muted {% endif %}"
-                    style="font-size: 13px; height: 36px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
-                    {{ p.name }}
-                </h4>
+<!-- Nama Produk (DISET 1 BARIS & TANPA TINGGI STATIS) -->
+    <h4 class="card-title mb-0 fw-bold {% if p.stock <= 0 %} text-muted {% endif %}"
+        style="font-size: 15px; 
+               line-height: 1.2; 
+               white-space: nowrap; 
+               overflow: hidden; 
+               text-overflow: ellipsis; 
+               margin-bottom: 2px !important;">
+        {{ p.name }}
+    </h4>
+                
+<!-- Area Spesifikasi Super Tipis -->
+<!-- Hilangkan margin-top dan kecilkan min-height -->
+<div class="product-specs-limit mb-1" style="min-height: auto; line-height: 1; margin-top: 2px;">
+    <div class="specs-container-limit">
+        {% for value in p.get_specs_as_list %}
+            <div class="badge-item" style="display: flex;">
+                <span class="badge badge-ekstrim-langsing border-0" 
+                      style="font-size: 0.85rem; 
+                             padding: 1px 6px; 
+                             background-color: #009621; 
+                             color: #ffffff; 
+                             border-radius: 1px;
+                             margin: 0.5px 0; /* Jarak vertikal antar badge makin tipis */
+                             cursor: default;">
+                    {{ value }}
+                </span>
+            </div>
+        {% empty %}
+            <!-- Kosongkan saja agar tidak makan tempat jika tidak ada spek -->
+        {% endfor %}
+    </div>
+</div>
 
                 <!-- Info Garansi (Satu Baris) -->
                 <div class="mb-1 d-flex align-items-center text-success" style="font-size: 0.7rem;">
@@ -80,8 +118,6 @@
                         style="color: {% if p.stock <= 0 %} #6c757d {% else %} #ee4d2d {% endif %}; font-size: 15px;">
                         Rp {{ p.price|intcomma }}
                     </div>
-
-
                 </div>
 
 
@@ -108,4 +144,37 @@
         </div>
     </a>
 </div>
+
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500&display=swap');
+
+@keyframes pulse-super-subtle {
+    0% { transform: scale(0.95); }
+    50% { transform: scale(1); background-color: #1e8000; }
+    100% { transform: scale(0.95); }
+}
+
+.specs-container-limit {
+    display: flex;
+    flex-wrap: wrap;
+    /* Jarak vertikal 0px, horizontal 3px */
+    gap: 0px 3px; 
+    margin: 0;
+    padding: 0;
+}
+
+.badge-ekstrim-langsing {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 1000;
+    letter-spacing: -0.1px;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    animation: pulse-super-subtle 2s infinite ease-in-out;
+    /* Menghilangkan sisa space line-height */
+    vertical-align: middle;
+}
+</style>
 {% endfor %}
