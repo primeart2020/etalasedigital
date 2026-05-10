@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'core',
     'katalog',
+    'djmoney',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -109,13 +110,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
+LANGUAGE_CODE = 'id-ID'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 USE_TZ = True
+
+USE_THOUSANDS_SEPARATOR = True
 
 
 # Static files (CSS, JavaScript, Images)
