@@ -1,0 +1,13 @@
+<label class="fw-bold small mb-2 d-block text-uppercase text-muted">Spesifikasi {{ category.name }}</label>
+<div class="row g-2">
+    {% for key in spec_keys %}
+    <div class="col-12">
+        <div class="input-group input-group-sm">
+            <span class="input-group-text bg-white" style="width: 35%; font-size: 0.75rem;">{{ key }}</span>
+            <input type="text" name="{{ key }}" class="form-control" placeholder="Isi detail...">
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-muted small">Tidak ada spesifikasi khusus untuk kategori ini.</p>
+    {% endfor %}
+</div>

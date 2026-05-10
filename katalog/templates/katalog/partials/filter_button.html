@@ -1,0 +1,13 @@
+<button id="filter-button-element" 
+        hx-swap-oob="true" 
+        class="btn btn-sm {% if request.GET.category or request.GET.min_price or request.GET.max_price %}btn-danger{% else %}btn-outline-dark{% endif %} d-lg-none position-relative" 
+        data-bs-target="#filterModal" 
+        data-bs-toggle="modal">
+    <i class="fas fa-filter"></i> Filter
+    
+    {% if request.GET.category or request.GET.min_price or request.GET.max_price %}
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark border border-white" style="font-size: 0.6rem;">
+        <i class="fas fa-check"></i>
+    </span>
+    {% endif %}
+</button>
