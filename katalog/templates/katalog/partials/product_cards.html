@@ -21,7 +21,7 @@
 
                 <!-- Label New Arrival (Hanya tampil jika stok ada) -->
                 {% if p.is_new_product and p.stock > 0 %}
-                <div class="position-absolute top-0 start-0 bg-success px-2 py-1 text-white fw-bold"
+                <div class="position-absolute top-0 start-0 bg-warning px-2 py-1 text-dark fw-bold"
                     style="font-size: 10px;">
                     New Arrival
                 </div>
@@ -42,13 +42,13 @@
 <!-- Label Status Harga di Thumbnail -->
 {% if p.old_price and p.old_price != p.price and p.stock > 0 %}
     {% if p.is_price_up %}
-        <div class="position-absolute top-0 end-0 bg-danger px-2 py-1 small fw-bold text-white d-flex align-items-center"
+        <div class="position-absolute top-0 end-0 bg-danger px-2 py-1 small fw-bold text-dark d-flex align-items-center"
              style="border-bottom-left-radius: 10px; z-index: 10;">
             <i class="bi bi-caret-up-fill me-1"></i> Naik {{ p.price_diff_percent }}% 
         </div>
     {% else %}
         <div class="position-absolute top-0 end-0 bg-warning px-2 py-1 small fw-bold d-flex align-items-center"
-             style="color: #ee4d2d; border-bottom-left-radius: 10px; z-index: 10;">
+             style="color: #ff0000; border-bottom-left-radius: 10px; z-index: 10;">
             <i class="bi bi-caret-down-fill me-1"></i> Disc {{ p.price_diff_percent }}%
         </div>
     {% endif %}
@@ -84,7 +84,7 @@
                 <span class="badge badge-ekstrim-langsing border-0" 
                       style="font-size: 0.85rem; 
                              padding: 1px 6px; 
-                             background-color: #009621; 
+                             background-color: #cd008f; 
                              color: #ffffff; 
                              border-radius: 1px;
                              margin: 0.5px 0; /* Jarak vertikal antar badge makin tipis */
@@ -151,7 +151,7 @@
 
 @keyframes pulse-super-subtle {
     0% { transform: scale(0.95); }
-    50% { transform: scale(1); background-color: #1e8000; }
+    50% { transform: scale(1); background-color: #0ac5d6; }
     100% { transform: scale(0.95); }
 }
 
