@@ -13,7 +13,7 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = [
             'category', 'sku', 'name', 'specifications', 'condition', 'price', 'old_price', 
-            'short_description', 'image', 'stock', 'garansi', 'is_sale',
+            'short_description', 'stock', 'garansi', 'is_sale',
         ]
         
         widgets = {
@@ -26,7 +26,7 @@ class ProductForm(forms.ModelForm):
             'short_description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'stock': forms.NumberInput(attrs={'class': 'form-control'}),
             'garansi': forms.Select(attrs={'class': 'form-select'}),
-            'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            # 'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
 
     def __init__(self, *args, **kwargs):
