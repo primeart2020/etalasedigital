@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib import messages
-from .models import Product, Category
+from .models import Product, Category, ProductImage
 from .forms import ProductForm
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
