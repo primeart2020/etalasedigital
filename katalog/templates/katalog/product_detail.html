@@ -59,35 +59,47 @@
 
 <div class="container mt-4 mb-5">
     <div class="row g-4">
+<!-- KOLOM KIRI: GAMBAR -->
+<div class="col-md-6">
+    <div class="card border-0 shadow-sm overflow-hidden">
+        
+<!-- Gambar Utama (Klik untuk Modal, Hover untuk Zoom) -->
+<div class="img-main-wrapper" id="zoomContainer" data-bs-toggle="modal" data-bs-target="#imageModal">
+    {% if product.images.all %}
+        <!-- Ambil objek pertama lalu simpan ke variabel 'first_gallery' -->
+        {% with product.images.all|first as first_gallery %}
+            <img src="{{ first_gallery.image.url }}" id="expandedImg" alt="{{ product.name }}">
+        {% endwith %}
+    {% else %}
+        <!-- Gambar cadangan jika produk tidak punya gambar sama sekali -->
+        <img src="/static/images/no-image.jpg" id="expandedImg" alt="No Image Available">
+    {% endif %}
+</div>
 
-        <!-- KOLOM KIRI: GAMBAR -->
-        <div class="col-md-6">
-            <div class="card border-0 shadow-sm overflow-hidden">
-                <!-- Gambar Utama (Klik untuk Modal, Hover untuk Zoom) -->
-                <div class="img-main-wrapper" id="zoomContainer" data-bs-toggle="modal" data-bs-target="#imageModal">
-                    <img src="{{ product.image.url }}" id="expandedImg" alt="{{ product.name }}">
-                </div>
-
-                <!-- Slider Thumbnail -->
-                <div class="p-3 bg-light border-top position-relative">
-                    <div class="swiper mySwiper">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <img src="{{ product.image.url }}" class="img-fluid opacity-75 active-thumb" onclick="changeImg('{{ product.image.url }}', this)">
-                            </div>
-                            {% for gallery in product.images.all %}
-                            <div class="swiper-slide">
-                                <img src="{{ gallery.image.url }}" class="img-fluid opacity-75" onclick="changeImg('{{ gallery.image.url }}', this)">
-                            </div>
-                            {% endfor %}
-                        </div>
-                        <div class="swiper-button-next" style="color: #333; transform: scale(0.5);"></div>
-                        <div class="swiper-button-prev" style="color: #333; transform: scale(0.5);"></div>
+        <!-- Slider Thumbnail -->
+        <div class="p-3 bg-light border-top position-relative">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    {% for gallery in product.images.all %}
+                    <div class="swiper-slide">
+                        <!-- 'forloop.first' otomatis memberikan class 'active-thumb' hanya pada gambar pertama -->
+                        <img src="{{ gallery.image.url }}" 
+                             class="img-fluid opacity-75 {% if forloop.first %}active-thumb{% endif %}" 
+                             onclick="changeImg('{{ gallery.image.url }}', this)">
                     </div>
+                    {% empty %}
+                    <div class="swiper-slide">
+                        <small class="text-muted">Tidak ada gambar</small>
+                    </div>
+                    {% endfor %}
                 </div>
+                <div class="swiper-button-next" style="color: #333; transform: scale(0.5);"></div>
+                <div class="swiper-button-prev" style="color: #333; transform: scale(0.5);"></div>
             </div>
         </div>
 
+    </div>
+</div>
 
 
         <!-- BAGIAN INFO PRODUK (Kanan) -->
@@ -106,6 +118,22 @@
                     </span>
                 </div>
                 <h1 class="h3 fw-bold mb-1">{{ product.name }}</h1>
+{% if user.is_authenticated %}
+<div class="admin-actions my-3 p-3 bg-light rounded d-flex align-items-center justify-content-between border border-warning-subtle">
+    <span class="text-muted small"><strong>⚙️ Mode Owner Aktif:</strong> Kelola produk ini</span>
+    <div class="d-flex gap-2">
+        <!-- Ganti ke product.pk -->
+        <a href="{% url 'edit_product' product.pk %}" class="btn btn-sm btn-warning text-white fw-bold px-3">
+            Edit Detail & Gambar
+        </a>
+        <a href="{% url 'delete_product' product.pk %}" class="btn btn-sm btn-outline-danger px-3">
+            Hapus Produk
+        </a>
+    </div>
+</div>
+{% endif %}
+
+
                 <!-- Area Spesifikasi   -->
                 <div class="product-specs-limit mb-3" style="min-height: auto; line-height: 1; margin-top: 4px;">
                     <div class="d-flex align-items-center mb-3">
@@ -305,50 +333,62 @@
 </div>
 
 <!-- 4. JAVASCRIPT -->
-<!-- Pastikan Swiper JS sudah di-load di base.html atau tambahkan di sini -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
-    // A. LOGIKA ZOOM IKUTI MOUSE
+    // ==========================================
+    // A. LOGIKA ZOOM IMAGE UTAMA (DESKTOP & MOBILE)
+    // ==========================================
     const container = document.getElementById('zoomContainer');
     const img = document.getElementById('expandedImg');
 
+    function handleZoom(e) {
+        let x, y;
+        
+        // Jika event berasal dari sentuhan (Mobile)
+        if (e.type.includes('touch')) {
+            if (e.touches.length === 0) return;
+            const touch = e.touches[0];
+            const rect = container.getBoundingClientRect();
+            x = ((touch.clientX - rect.left) / container.offsetWidth) * 100;
+            y = ((touch.clientY - rect.top) / container.offsetHeight) * 100;
+        } 
+        // Jika event berasal dari mouse (Desktop)
+        else {
+            x = (e.offsetX / container.offsetWidth) * 100;
+            y = (e.offsetY / container.offsetHeight) * 100;
+        }
 
-// Fungsi utama untuk hitung posisi zoom
-function handleZoom(e) {
-    let x, y;
-    
-    // Jika event berasal dari sentuhan (Mobile)
-    if (e.type.includes('touch')) {
-        const touch = e.touches[0];
-        const rect = container.getBoundingClientRect();
-        x = ((touch.clientX - rect.left) / container.offsetWidth) * 100;
-        y = ((touch.clientY - rect.top) / container.offsetHeight) * 100;
-    } 
-    // Jika event berasal dari mouse (Desktop)
-    else {
-        x = (e.offsetX / container.offsetWidth) * 100;
-        y = (e.offsetY / container.offsetHeight) * 100;
-    }
+        // Amankan batas koordinat agar tidak minus atau lebih dari 100
+        x = Math.max(0, Math.min(100, x));
+        y = Math.max(0, Math.min(100, y));
 
-    img.style.transformOrigin = `${x}% ${y}%`;
-    img.style.transform = "scale(2.5)";
-}
-
-    container.addEventListener('mousemove', (e) => {
-        const x = (e.offsetX / container.offsetWidth) * 100;
-        const y = (e.offsetY / container.offsetHeight) * 100;
         img.style.transformOrigin = `${x}% ${y}%`;
         img.style.transform = "scale(2.5)";
-    });
+    }
 
-    container.addEventListener('mouseleave', () => {
+    function resetZoom() {
         img.style.transform = "scale(1)";
         img.style.transformOrigin = "center center";
-    });
+    }
 
-    // B. SWIPER THUMBNAIL (Bawah)
+    // Pasang Event Listener untuk Desktop
+    container.addEventListener('mousemove', handleZoom);
+    container.addEventListener('mouseleave', resetZoom);
+
+    // Pasang Event Listener untuk Mobile
+    container.addEventListener('touchstart', handleZoom);
+    container.addEventListener('touchmove', (e) => {
+        handleZoom(e);
+        e.preventDefault(); // Mencegah halaman ikut scroll saat zoom di HP
+    }, { passive: false });
+    container.addEventListener('touchend', resetZoom);
+
+
+    // ==========================================
+    // B. SWIPER THUMBNAIL (Bagian Bawah Gambar)
+    // ==========================================
     var thumbSwiper = new Swiper(".mySwiper", {
         loop: false,
         spaceBetween: 10,
@@ -359,51 +399,53 @@ function handleZoom(e) {
         },
     });
 
+    // Fungsi klik thumbnail ganti gambar utama
     function changeImg(url, el) {
-        document.getElementById('expandedImg').src = url;
-        // Reset thumbnail style
+        img.src = url;
+        // Reset state aktif thumbnail
         document.querySelectorAll('.mySwiper img').forEach(i => i.classList.remove('active-thumb'));
         el.classList.add('active-thumb');
     }
 
-    // C. SWIPER MODAL (Fix Loop & Start)
+
+    // ==========================================
+    // C. SWIPER MODAL FULLSCREEN (FIX BLANK / KOSONG)
+    // ==========================================
     let modalSwiper;
     const modalEl = document.getElementById('imageModal');
 
-// Event untuk Desktop
-container.addEventListener('mousemove', handleZoom);
-container.addEventListener('mouseleave', () => {
-    img.style.transform = "scale(1)";
-});
+    // Inisialisasi Swiper Modal
+    modalSwiper = new Swiper(".modalSwiper", {
+        loop: true,
+        observer: true,
+        observeParents: true,
+        grabCursor: true,
+        touchRatio: 1.5,
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+    });
 
-// Event untuk Mobile
-container.addEventListener('touchstart', handleZoom);
-container.addEventListener('touchmove', (e) => {
-    handleZoom(e);
-    e.preventDefault(); // Mencegah halaman ikut scroll saat geser gambar
-}, { passive: false });
-
-container.addEventListener('touchend', () => {
-    img.style.transform = "scale(1)";
-});
-
-// Di bagian inisialisasi modalSwiper
-modalSwiper = new Swiper(".modalSwiper", {
-    loop: true,
-    observer: true,
-    observeParents: true,
-    grabCursor: true, // Biar kursor jadi tangan
-    touchRatio: 1.5,  // Biar swipe lebih sensitif di HP
-    navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-    },
-    pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-    },
-});
-    
+    // PENTING: Update Swiper saat modal berhasil terbuka agar gambarnya tidak blank
+    modalEl.addEventListener('shown.bs.modal', function () {
+        if (modalSwiper) {
+            modalSwiper.update();
+            
+            // Opsional: Cari tahu gambar utama yang sedang aktif, lalu arahkan slide modal ke gambar tersebut
+            const currentSrc = img.getAttribute('src');
+            const slides = modalEl.querySelectorAll('.swiper-slide img');
+            slides.forEach((slideImg, index) => {
+                if (slideImg.getAttribute('src') === currentSrc) {
+                    modalSwiper.slideToLoop(index, 0);
+                }
+            });
+        }
+    });
 </script>
 
 {% include 'katalog/partials/related_product.html' %}

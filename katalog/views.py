@@ -4,7 +4,7 @@ from django.contrib import messages
 from .models import Product, Category
 from .forms import ProductForm
 from django.db.models import Count
-
+from django.contrib.auth.decorators import login_required
 from django.db.models import Case, When, Value, IntegerField
 
 def store(request):
@@ -59,17 +59,6 @@ def product_list(request):
     all_product = Product.objects.filter(is_available=True)
     return render(request, 'katalog/product_list.html', {'products': all_product})
 
-def add_product(request):
-    if request.method == 'POST':
-        form = ProductForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Produk berhasil ditambahkan!')
-            return redirect('store')
-    else:
-        form = ProductForm()
-    
-    return render(request, 'katalog/add_product.html', {'form': form})
 
 def product_detail(request, slug):
     # Ambil produk berdasarkan slug
@@ -113,15 +102,18 @@ def index(request):
     
     return render(request, 'index.html', {'products': products})
 
+# ==========================================
+# 1. ADD PRODUCT (MODIFIKASI SIKIT UNTUK TEMPLATE DINAMIS)
+# ==========================================
+@login_required
 def add_product(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
-            product = form.save() # Simpan produk dulu
+            product = form.save() 
             
-            # Ambil banyak file
+            # Ambil banyak file dari field extra_images
             files = request.FILES.getlist('extra_images') 
-            from .models import ProductImage
             for f in files:
                 ProductImage.objects.create(product=product, image=f)
             
@@ -129,4 +121,58 @@ def add_product(request):
             return redirect('store')
     else:
         form = ProductForm()
-    return render(request, 'katalog/add_product.html', {'form': form})
+    
+    # Kirim title agar template fleksibel
+    return render(request, 'katalog/add_product.html', {
+        'form': form, 
+        'title': 'Tambah Produk Baru'
+    })
+
+@login_required
+def edit_product(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            product = form.save()
+            
+            # Sekarang gambar baru sifatnya MENAMBAHKAN, tidak menghapus paksa semuanya
+            files = request.FILES.getlist('extra_images')
+            for f in files:
+                ProductImage.objects.create(product=product, image=f)
+            
+            messages.success(request, 'Produk berhasil diperbarui!')
+            return redirect('product_detail', slug=product.slug)
+    else:
+        form = ProductForm(instance=product)
+    
+    return render(request, 'katalog/add_product.html', {
+        'form': form,
+        'product': product,
+        'title': f'Edit Produk: {product.name}'
+    })
+
+@login_required
+def delete_product(request, pk):
+    # Cari pakai PK
+    product = get_object_or_404(Product, pk=pk)
+    
+    if request.method == 'POST':
+        product.delete()
+        messages.success(request, 'Produk berhasil dihapus!')
+        return redirect('store')
+        
+    return render(request, 'katalog/confirm_delete.html', {'product': product})
+
+
+@login_required
+def delete_product_image(request, img_id):
+    if request.method == 'POST':
+        # Cari gambar ekstra berdasarkan ID-nya
+        image = get_object_or_404(ProductImage, id=img_id)
+        image.delete() # Hapus dari database
+        
+        # Kembalikan response kosong agar elemen gambar di HTML langsung hilang (fitur HTMX)
+        return HttpResponse("") 
+    return HttpResponse(status=400)

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center my-5">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+            <div class="card shadow border-0" style="border-radius: 8px;">
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <h3 class="fw-bold text-danger">🔐 Owner Login</h3>
+                        <p class="text-muted small">Masuk untuk mengelola stok & harga laptop</p>
+                    </div>
+
+                    <!-- PENTING: action ke request.get_full_path agar fitur ?next= bekerja otomatis -->
+                    <form method="POST" action="{{ request.get_full_path }}">
+                        {% csrf_token %}
+
+                        <!-- Menampilkan Error jika Username/Password Salah -->
+                        {% if form.errors %}
+                        <div class="alert alert-danger small py-2" role="alert">
+                            Username atau password salah, bro! Coba cek lagi.
+                        </div>
+                        {% endif %}
+
+                        <!-- Input Username -->
+                        <div class="mb-3">
+                            <label for="id_username" class="form-label small fw-semibold text-muted">Username</label>
+                            <input type="text" name="username" id="id_username" class="form-control" placeholder="Masukkan username admin" required>
+                        </div>
+
+                        <!-- Input Password -->
+                        <div class="mb-3">
+                            <label for="id_password" class="form-label small fw-semibold text-muted">Password</label>
+                            <input type="password" name="password" id="id_password" class="form-control" placeholder="••••••••" required>
+                        </div>
+
+                        <!-- Tombol Submit -->
+                        <button type="submit" class="btn btn-danger w-100 fw-bold py-2 mt-2 shadow-sm">
+                            MASUK SEKARANG
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="text-center mt-3">
+                <a href="{% url 'store' %}" class="text-decoration-none small text-muted">
+                    ← Kembali ke Toko Utama
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

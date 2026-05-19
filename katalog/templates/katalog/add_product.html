@@ -7,48 +7,87 @@
             <div class="col-12 col-md-8 col-lg-7">
                 <div class="card shadow-sm border-0">
                     <div class="card-body p-4">
-                        <h3 class="mb-4 text-center fw-bold">Tambah Produk Baru</h3>
+                        <h3 class="mb-4 text-center fw-bold">{{ title }}</h3>
 
                         <form method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
 
                             {% for field in form %}
-<div class="mb-3">
-    <label class="form-label fw-semibold">{{ field.label }}</label>
-    
-    {% if field.name == 'category' %}
-        <!-- Tambahkan HTMX di sini -->
-        <select name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-select"
-                hx-get="{% url 'get_spec_fields' %}" 
-                hx-target="#dynamic-specs-container" 
-                hx-trigger="change">
-            {% for choice in field.field.choices %}
-                <option value="{{ choice.0 }}" {% if field.value == choice.0 %}selected{% endif %}>
-                    {{ choice.1 }}
-                </option>
-            {% endfor %}
-        </select>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">{{ field.label }}</label>
+                                
+                                {% if field.name == 'category' %}
+                                    <select name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-select"
+                                            hx-get="{% url 'get_spec_fields' %}" 
+                                            hx-target="#dynamic-specs-container" 
+                                            hx-trigger="change">
+                                        {% for choice in field.field.choices %}
+                                            <option value="{{ choice.0 }}" {% if field.value == choice.0 %}selected{% endif %}>
+                                                {{ choice.1 }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
 
-    {% elif field.name == 'specifications' %}
-        <!-- Area Kosong yang akan diisi oleh HTMX -->
-        <div id="dynamic-specs-container" class="p-3 bg-light rounded border">
-            <p class="text-muted small mb-0">Pilih kategori untuk memunculkan spesifikasi khusus.</p>
-        </div>
-        <!-- Hidden input untuk menampung hasil akhir JSON sebelum disubmit -->
-        <input type="hidden" name="specifications" id="id_specifications_hidden">
-        
-    {% else %}
-        {{ field }}
-    {% endif %}
+                                {% elif field.name == 'specifications' %}
+                                    <div id="dynamic-specs-container" class="p-3 bg-light rounded border">
+                                        {% if product and product.specifications %}
+                                            <p class="text-muted small mb-2 border-b pb-1">Edit Spesifikasi Produk:</p>
+                                            {% for key, value in product.specifications.items %}
+                                                <div class="mb-2">
+                                                    <label class="form-label small text-capitalize mb-1">{{ key }}</label>
+                                                    <input type="text" name="{{ key }}" value="{{ value }}" class="form-control form-control-sm">
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            <p class="text-muted small mb-0">Pilih kategori untuk memunculkan spesifikasi khusus.</p>
+                                        {% endif %}
+                                    </div>
+                                    <input type="hidden" name="specifications" id="id_specifications_hidden" value="{% if product %}{{ product.specifications }}{% endif %}">
+                                    
+                                {% else %}
+                                    {{ field }}
+                                {% endif %}
 
-    {% if field.errors %}
-        <div class="text-danger small mt-1">{{ field.errors }}</div>
-    {% endif %}
-</div>
-{% endfor %}
+                                {% if field.errors %}
+                                    <div class="text-danger small mt-1">{{ field.errors }}</div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
 
-                            <button type="submit" class="btn btn-danger w-100 fw-bold py-2 mt-3" onclick="prepareJson()">
-                                SIMPAN PRODUK
+                            <!-- ========================================== -->
+                            <!-- TAMPILAN MANAJEMEN GAMBAR (LIVE PREVIEW & HAPUS) -->
+                            <!-- ========================================== -->
+                            {% if product %}
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold d-block">Gambar Produk Saat Ini</label>
+                                <div class="d-flex flex-wrap gap-2 p-2 bg-light rounded border">
+                                    {% for img in product.images.all %}
+                                        <!-- ID unik div untuk target HTMX swap -->
+                                        <div id="img-container-{{ img.id }}" class="position-relative" style="width: 80px; height: 80px;">
+                                            <img src="{{ img.image.url }}" class="rounded img-thumbnail w-100 h-100" style="object-fit: cover;">
+                                            
+                                            <!-- Tombol X merah kecil di sudut gambar menggunakan HTMX -->
+                                            <button type="button" 
+                                                    class="btn btn-danger btn-sm position-absolute top-0 end-0 p-0 d-flex align-items-center justify-content-center rounded-circle"
+                                                    style="width: 20px; height: 20px; font-size: 11px; margin-top: -5px; margin-right: -5px;"
+                                                    hx-post="{% url 'delete_product_image' img.id %}"
+                                                    hx-target="#img-container-{{ img.id }}"
+                                                    hx-swap="outerHTML"
+                                                    hx-confirm="Hapus gambar ini dari database?">
+                                                ✕
+                                            </button>
+                                        </div>
+                                    {% empty %}
+                                        <p class="text-muted small mb-0 m-2">Belum ada gambar tambahan untuk produk ini.</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+
+                           <!-- ========================================== -->
+
+                            <button type="submit" class="btn btn-danger w-100 fw-bold py-2 mt-3" onclick="prepareSpecsJson()">
+                                {% if product %} UPDATE DATA PRODUK {% else %} SIMPAN PRODUK BARU {% endif %}
                             </button>
                         </form>
                     </div>
@@ -60,38 +99,31 @@
 
 <script>
     document.body.addEventListener('htmx:beforeRequest', function(evt) {
-        // Jika form utama disubmit, rakit JSON-nya dulu
         if (evt.detail.target.tagName === 'FORM') {
             prepareSpecsJson();
         }
     });
 
-function prepareSpecsJson() {
-        // 1. Cari kontainer tempat HTMX menaruh input-input tadi
+    function prepareSpecsJson() {
         const container = document.getElementById('dynamic-specs-container');
         if (!container) return;
 
-        // 2. Ambil semua input di dalamnya
         const inputs = container.querySelectorAll('input');
         const specs = {};
 
         inputs.forEach(input => {
-            // Kita ambil 'name' sebagai Key, dan 'value' sebagai Value JSON
             if (input.name) {
                 specs[input.name] = input.value;
             }
         });
 
-        // 3. Masukkan hasil rakitan ke hidden input specifications
-        // Pastikan ID ini sesuai dengan yang ada di loop form tadi
         const hiddenInput = document.getElementById('id_specifications_hidden');
         if (hiddenInput) {
             hiddenInput.value = JSON.stringify(specs);
-            console.log("Data JSON siap dikirim:", hiddenInput.value); // Cek di F12
+            console.log("Data JSON siap dikirim:", hiddenInput.value);
         }
     }
 
-    // Tambahan: Pastikan script jalan saat tombol Enter ditekan di keyboard
     document.querySelector('form').addEventListener('submit', function(e) {
         prepareSpecsJson();
     });

@@ -1,0 +1,642 @@
+[
+  {
+    "model": "katalog.product",
+    "pk": 1,
+    "fields": {
+      "sku": "0050",
+      "category": 1,
+      "name": "Lenovo Thinkpad X250",
+      "slug": "laptop-lenovo-thinkpad-x250",
+      "short_description": "💼 laptop bisnis yang tangguh, awet, dan andal untuk penggunaan jangka panjang.\r\n\r\n🛡️ memiliki build quality kokoh khas seri thinkpad, laptop ini dirancang untuk mobilitas dan penggunaan yang intens.\r\n\r\n⚡  prosesor intel core generasi ke-5, performanya tetap responsif untuk pekerjaan kantor, browsing, hingga multitasking ringan.\r\n\r\n⌨️ dilengkapi keyboard ergonomis yang nyaman digunakan dalam waktu lama, khas thinkpad yang terkenal empuk dan presisi.\r\n\r\n🔋 memiliki daya tahan baterai yang awet, cocok untuk aktivitas kerja maupun kuliah tanpa sering mencari colokan.\r\n\r\n🎒 dengan desain ringkas dan ringan, thinkpad x250 praktis dibawa bepergian dan ideal untuk aktivitas mobile sehari-hari.\r\n\r\n✅ cocok untuk kerja kantoran, kuliah & tugas, browsing, meeting online, hingga mobilitas harian.",
+      "specifications": {
+        "Processor": "Core i5 Gen 7",
+        "RAM": "8 GB DDR 4",
+        "SSD": "256 Sata",
+        "Screen": "125' FHD"
+      },
+      "price": 2700000,
+      "old_price": 2900000,
+      "garansi": "3",
+      "condition": "AA+",
+      "is_sale": false,
+      "image": "products/image-removebg-preview_1.png",
+      "stock": 0,
+      "is_available": true,
+      "created_at": "2026-05-07T21:38:20.010Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 2,
+    "fields": {
+      "sku": "SCR-001",
+      "category": 9,
+      "name": "Ganti LCD 14 inch",
+      "slug": "ganti-lcd-14-inch-kuping-atas-bawah-slim",
+      "short_description": "Berikut contoh laptop 14 inch yang cocok dengan LCD model “kuping atas–bawah slim”\r\n\r\n💻 Contoh laptop:\r\nLenovo IdeaPad Slim 3 14 (Intel Core i3 / Ryzen 3–5)\r\nASUS VivoBook 14 A1402 / A416 (Core i3 / i5)\r\nHP 14s (Intel Core i3 / i5)\r\nAcer Aspire 5 A514 (Core i3 / i5)\r\nAxioo MyBook 14 (Core i3)\r\n\r\n📌 Ciri umum laptopnya:\r\n\r\nLayar 14 inch Full HD atau HD\r\nBezel samping tipis, atas masih ada untuk kamera\r\nBezel bawah sedikit lebih tebal\r\nProsesor entry–mid (i3, i5, Ryzen 3, Ryzen 5)\r\nRAM 4GB–16GB, SSD 256GB–512GB\r\nBobot ringan ±1,3–1,7 kg\r\n\r\n⭐ Kesimpulan:\r\nModel LCD seperti ini paling sering dipakai di laptop tipis kelas harian karena desainnya simpel, ringan, dan harga lebih terjangkau dibanding laptop gaming atau profesional.\r\n\r\nSilahkan tanyakan atau konsultasi dengan teknisi kami di Toko.\r\nHarga diatas sudah termasuk jasa pemasangan",
+      "specifications": {
+        "Ukuran": "14Inch",
+        "Kuping": "Atas Bawah",
+        "Ketebalan": "Slim",
+        "Resolusi": "HD",
+        "Refresh Rate": ""
+      },
+      "price": 600000,
+      "old_price": 750000,
+      "garansi": "1",
+      "condition": "NEW",
+      "is_sale": true,
+      "image": "products/9a7308292be81140da25f9a8d1b2aaa9.jpg",
+      "stock": 10,
+      "is_available": true,
+      "created_at": "2026-05-07T21:47:35.885Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 4,
+    "fields": {
+      "sku": "0998",
+      "category": 1,
+      "name": "Advan Soulmate X",
+      "slug": "advan-soulmate",
+      "short_description": "Advan Soulmate X hadir sebagai laptop stylish dan bertenaga untuk mendukung aktivitas harian, belajar, hingga pekerjaan multitasking.\r\n\r\nDibekali RAM 8GB dan SSD 256GB, laptop ini mampu memberikan performa responsif untuk membuka banyak aplikasi sekaligus, browsing, meeting online, hingga editing ringan dengan lebih lancar.\r\n\r\nDesainnya modern dan ringkas sehingga nyaman dibawa bepergian maupun digunakan sehari-hari. Layar yang jernih memberikan pengalaman visual lebih nyaman untuk bekerja maupun menikmati hiburan. Penyimpanan SSD 256GB juga membuat proses booting dan akses data menjadi lebih cepat dibanding hard disk biasa.\r\n\r\nCocok untuk pelajar, mahasiswa, pekerja kantoran, maupun pengguna yang membutuhkan laptop praktis dengan performa stabil dan harga terjangkau.",
+      "specifications": {
+        "Processor": "Ryzen 5",
+        "RAM": "8 GB",
+        "SSD": "256 GB",
+        "Screen": "14' FHD"
+      },
+      "price": 5500000,
+      "old_price": 5500000,
+      "garansi": "6",
+      "condition": "A",
+      "is_sale": true,
+      "image": "products/IMG_20260402_095717.jpg",
+      "stock": 0,
+      "is_available": true,
+      "created_at": "2026-05-08T18:22:00.673Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 5,
+    "fields": {
+      "sku": "986",
+      "category": 4,
+      "name": "Macbook Air 2017 13 Inch",
+      "slug": "macbook-air-2017-13-inch",
+      "short_description": "💻✨ **MacBook Air 13” 2017**\r\nTipis, ringan, & tetap nyaman untuk aktivitas harian 🙌\r\n\r\n⚡ Intel Core i5 — performa stabil\r\n🔋 Baterai awet untuk mobilitas tinggi\r\n🖥️ Layar 13” jernih & nyaman di mata\r\n⌨️ Keyboard nyaman + trackpad responsif\r\n🎓 Cocok untuk belajar, kerja, meeting & hiburan\r\n🍎 Desain elegan, simpel, dan stylish\r\n\r\n💼 Pilihan pas untuk mahasiswa & pekerja aktif!",
+      "specifications": {
+        "Processor": "Core i5",
+        "RAM": "8 GB",
+        "SSD": "128 GB",
+        "Screen": "13Inc"
+      },
+      "price": 3700000,
+      "old_price": 3500000,
+      "garansi": "3",
+      "condition": "AA",
+      "is_sale": true,
+      "image": "products/IMG20260510121326.jpg",
+      "stock": 1,
+      "is_available": true,
+      "created_at": "2026-05-08T18:25:23.064Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 6,
+    "fields": {
+      "sku": "PRN-E-3210",
+      "category": 6,
+      "name": "Printer EPSON L3210",
+      "slug": "printer-epson-l3210",
+      "short_description": "🖨️ Epson EcoTank L3210 adalah printer multifungsi (print, scan, copy) dengan sistem tangki tinta hemat yang cocok untuk kebutuhan rumah, sekolah, dan kantor kecil.\r\n\r\n📄 Resolusi cetak hingga 5760 x 1440 dpi dengan hasil tajam untuk dokumen dan gambar. Kecepatan cetak mencapai 33 ppm (hitam) dan 15 ppm (warna).\r\n\r\n📷 Scanner tipe CIS dengan resolusi 600 x 1200 dpi, cukup untuk kebutuhan dokumen harian.\r\n\r\n📑 Mendukung berbagai ukuran kertas (A4, A5, A6, Letter, Legal) dengan kapasitas 100 lembar input.\r\n\r\n🔌 Koneksi USB, tanpa WiFi. Desain ringkas dengan berat sekitar 3,9 kg dan konsumsi daya rendah ±14 watt.\r\n\r\n💧 Tinta super hemat: hingga 8.100 halaman (hitam) dan 6.500 halaman (warna).\r\n\r\n⭐ Cocok untuk pengguna yang butuh printer irit, simpel, dan tahan lama.",
+      "specifications": {
+        "Printer": "PRINT",
+        "Scanner": "SCAN",
+        "Tank": "ecoTANK",
+        "Color": "4 Warna",
+        "Wifi": "",
+        "Duplex Scan": ""
+      },
+      "price": 2350000,
+      "old_price": 2500000,
+      "garansi": "1YR",
+      "condition": "NEW",
+      "is_sale": true,
+      "image": "products/2314073a-265d-4b4d-bc4f-08b5b780350d.jpeg",
+      "stock": 5,
+      "is_available": true,
+      "created_at": "2026-05-08T21:50:15.363Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 7,
+    "fields": {
+      "sku": "1042",
+      "category": 1,
+      "name": "HP Elitebook 830-G6",
+      "slug": "hp-probook-830-g6",
+      "short_description": "Lengkap dengan Kotak",
+      "specifications": {
+        "Processor": "Core i5 Gen 8",
+        "RAM": "8 GB DDR4",
+        "SSD": "256 Nvme",
+        "Screen": "13.3 Inch"
+      },
+      "price": 4500000,
+      "old_price": 4900000,
+      "garansi": "6",
+      "condition": "AA+",
+      "is_sale": true,
+      "image": "products/DSC_0123.JPG",
+      "stock": 1,
+      "is_available": true,
+      "created_at": "2026-05-08T23:16:59.214Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 8,
+    "fields": {
+      "sku": "1025",
+      "category": 1,
+      "name": "Dell Lattitude 5300",
+      "slug": "1025-dell-lattitude-5300",
+      "short_description": "Mulus No Minus",
+      "specifications": {
+        "Processor": "Core i5 Gen 8",
+        "RAM": "8 GB DDR 4",
+        "SSD": "256 GB Nvme",
+        "Screen": "14\""
+      },
+      "price": 3900000,
+      "old_price": 4100000,
+      "garansi": "6",
+      "condition": "AA+",
+      "is_sale": true,
+      "image": "products/dell_latitude_5300_touchscreen_1732012181_9df06ae1_progressive.jpg",
+      "stock": 1,
+      "is_available": true,
+      "created_at": "2026-05-08T23:33:44.694Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 9,
+    "fields": {
+      "sku": "1028",
+      "category": 1,
+      "name": "Dell Lattitude 5300",
+      "slug": "1028-dell-lattitude-5300",
+      "short_description": "Laptop Slim Elgan",
+      "specifications": {
+        "Processor": "Core i5 Gen 8",
+        "RAM": "8 GB DDR 4",
+        "SSD": "256 GB Nvme",
+        "Screen": "14\""
+      },
+      "price": 3900000,
+      "old_price": 4100000,
+      "garansi": "6",
+      "condition": "AA+",
+      "is_sale": true,
+      "image": "products/DSC_0074.JPG",
+      "stock": 1,
+      "is_available": true,
+      "created_at": "2026-05-08T23:43:31.812Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 10,
+    "fields": {
+      "sku": "1029",
+      "category": 1,
+      "name": "Dell Lattitude 5310",
+      "slug": "1029-dell-lattitude-5310",
+      "short_description": "Laptop Slim Elgan",
+      "specifications": {
+        "Processor": "Core i5 Gen 8",
+        "RAM": "8 GB DDR 4",
+        "SSD": "256 GB Nvme",
+        "Screen": "14\""
+      },
+      "price": 3900000,
+      "old_price": 4200000,
+      "garansi": "6",
+      "condition": "AA+",
+      "is_sale": true,
+      "image": "products/images_1_jmdHvir.jfif",
+      "stock": 1,
+      "is_available": true,
+      "created_at": "2026-05-08T23:46:22.864Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 11,
+    "fields": {
+      "sku": "1022",
+      "category": 1,
+      "name": "Dell Lattitude 7400",
+      "slug": "dell-lattitude-7400",
+      "short_description": "adf",
+      "specifications": {
+        "Processor": "Core i5 Gen 8",
+        "RAM": "8 GB DDR 4",
+        "SSD": "256 GB Nvme",
+        "Screen": "14\""
+      },
+      "price": 4600000,
+      "old_price": 5200000,
+      "garansi": "6",
+      "condition": "AA+",
+      "is_sale": true,
+      "image": "products/IMG_20260403_153936.jpg",
+      "stock": 1,
+      "is_available": true,
+      "created_at": "2026-05-08T23:50:38.175Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 12,
+    "fields": {
+      "sku": "SCR-B-3210",
+      "category": 6,
+      "name": "Super Fast Scanner",
+      "slug": "super-fast-scanner-brother",
+      "short_description": "Super Fast Scanner",
+      "specifications": {
+        "Printer": "",
+        "Scanner": "Super Fast",
+        "Wifi": "",
+        "Duplex Scan": ""
+      },
+      "price": 3700000,
+      "old_price": 4800000,
+      "garansi": "1",
+      "condition": "AA+",
+      "is_sale": false,
+      "image": "products/DSC_0033.JPG",
+      "stock": 2,
+      "is_available": true,
+      "created_at": "2026-05-09T00:17:52.332Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 13,
+    "fields": {
+      "sku": "0996",
+      "category": 1,
+      "name": "Advan Workmate",
+      "slug": "advan-workmate-ryzen-5-3000-series-ram-8-ssd-256",
+      "short_description": "Sangat Mulus, lengkap dengan kotak",
+      "specifications": {
+        "Processor": "Ryzen 5",
+        "RAM": "8 GB DDR 4",
+        "SSD": "256 GB Nvme",
+        "Screen": "14\""
+      },
+      "price": 4250000,
+      "old_price": 4500000,
+      "garansi": "6",
+      "condition": "AAA+",
+      "is_sale": false,
+      "image": "products/DSC_0046.JPG",
+      "stock": 1,
+      "is_available": true,
+      "created_at": "2026-05-09T00:23:48.683Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 14,
+    "fields": {
+      "sku": "981",
+      "category": 4,
+      "name": "Macbook Air 2017 13 Inch",
+      "slug": "macbook-air-2017-13-inch-core-i-5-ram-8-ssd-256",
+      "short_description": "asdf",
+      "specifications": {
+        "Processor": "Core i5",
+        "RAM": "8 GB",
+        "SSD": "128 GB",
+        "Screen": "13 Inch"
+      },
+      "price": 3500000,
+      "old_price": 3700000,
+      "garansi": "3",
+      "condition": "AA+",
+      "is_sale": true,
+      "image": "products/4039031B-CF4C-447B-BEBC-7D701221AADF.png",
+      "stock": 1,
+      "is_available": true,
+      "created_at": "2026-05-09T00:56:27.787Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 15,
+    "fields": {
+      "sku": "MWR-001",
+      "category": 8,
+      "name": "Mouse Wireless Voxy E24",
+      "slug": "mouse-wireless-voxy-e24",
+      "short_description": "Konektivitas: Wireless (2.4 GHz) (menggunakan USB dongle)\r\nDesain: Ramping, simetris, dan ergonomis (nyaman digunakan untuk tangan kiri maupun kanan)\r\nDaya: Menggunakan baterai (AA atau AAA, tergantung batch produksi)\r\nKompatibilitas: Kompatibel dengan Windows, Mac, dan Android\r\nFitur: Plug and Play (langsung colok dan pakai tanpa instalasi driver tambahan)",
+      "specifications": {
+        "Merek": "Voxy ",
+        "Tipe": "E24",
+        "Model": "Wireless",
+        "Varian": "",
+        "Warna": "Hitam"
+      },
+      "price": 55000,
+      "old_price": 65000,
+      "garansi": "1",
+      "condition": "NEW",
+      "is_sale": true,
+      "image": "products/DSC_0010_result.webp",
+      "stock": 15,
+      "is_available": true,
+      "created_at": "2026-05-09T03:36:36.942Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 16,
+    "fields": {
+      "sku": "1030",
+      "category": 1,
+      "name": "Dell Lattitude 5310",
+      "slug": "1030-dell-lattitude-5310",
+      "short_description": "Dell Latitude 5310 adalah laptop bisnis 13,3 inci yang handal, portabel, dan kini populer sebagai perangkat bekas/refurbished bernilai tinggi.\r\n\r\nLaptop ini menggunakan prosesor Intel Core Generasi ke-10 (i5/i7), mendukung RAM hingga 32GB, SSD NVMe, serta memiliki portabilitas tinggi, cocok untuk produktivitas harian.\r\n\r\nSpesifikasi Utama & Fitur:\r\nKeyboard Back Ligt & Finger Print",
+      "specifications": {
+        "Processor": "Core i5 Gen 10",
+        "RAM": "8 GB DDR 4",
+        "SSD": "256 GB Nvme",
+        "Screen": "13.3\""
+      },
+      "price": 4600000,
+      "old_price": 4800000,
+      "garansi": "6",
+      "condition": "AA+",
+      "is_sale": true,
+      "image": "products/WhatsApp_Image_2026-04-21_at_11.33.331.jpeg",
+      "stock": 1,
+      "is_available": true,
+      "created_at": "2026-05-09T04:28:18.724Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 17,
+    "fields": {
+      "sku": "1031",
+      "category": 1,
+      "name": "Dell Lattitude 5310",
+      "slug": "dell-lattitude-5310-1031",
+      "short_description": "💻 Dell Latitude 5310 adalah laptop kelas bisnis berukuran 13,3 inci yang dirilis sekitar tahun 2020. Laptop ini dikenal karena desainnya yang ringkas dan sangat portabel, daya tahan baterai yang lama, serta fleksibilitas upgrade hardware, sehingga cocok digunakan oleh profesional maupun pelajar.\r\n\r\n⚙️ Spesifikasi utama: laptop ini menggunakan prosesor Intel Core generasi ke-10 (Comet Lake) dengan beberapa pilihan, yaitu Core i5-10210U, i5-10310U, hingga Core i7-10610U. Untuk tampilan, tersedia layar 13,3 inci dengan resolusi Full HD (1920 x 1080), dan beberapa varian juga hadir dalam versi 2-in-1 dengan layar sentuh yang dapat diputar hingga 360 derajat.\r\n\r\n🧠 Pada bagian memori dan penyimpanan, Dell Latitude 5310 dibekali dua slot RAM SODIMM yang mendukung hingga 32GB DDR4, memberikan keleluasaan untuk upgrade. Penyimpanan menggunakan SSD NVMe dengan kapasitas mulai dari 256GB hingga 1TB yang memastikan performa tetap cepat dan responsif.\r\n\r\n🌐 Dari sisi konektivitas, laptop ini sudah mendukung Wi-Fi 6 dan Bluetooth 5.1. Port yang tersedia juga cukup lengkap, termasuk USB-C dengan dukungan Power Delivery dan DisplayPort, dua USB-A 3.2, HDMI 1.4, serta pembaca kartu microSD.\r\n\r\n🔋 Untuk daya tahan, baterainya berkapasitas hingga 60 Wh yang mampu bertahan sekitar 11 hingga 15 jam pada penggunaan ringan, sehingga cukup andal untuk mobilitas tinggi.\r\n\r\n🔐 Dari sisi keamanan, laptop ini dilengkapi fitur kelas bisnis seperti sensor sidik jari, kamera IR untuk Windows Hello, serta chip keamanan TPM 2.0 yang menjaga data tetap aman.\r\n\r\n✨ Secara keseluruhan, Dell Latitude 5310 merupakan pilihan ideal bagi pengguna yang membutuhkan laptop ringan, aman, dan tetap bertenaga untuk kebutuhan kerja sehari-hari.",
+      "specifications": {
+        "Processor": "Core i5 Gen 10",
+        "RAM": "8 GB DDR 4",
+        "SSD": "256 GB Nvme",
+        "Screen": "13.3\""
+      },
+      "price": 4600000,
+      "old_price": 4800000,
+      "garansi": "6",
+      "condition": "AA+",
+      "is_sale": true,
+      "image": "products/WhatsApp_Image_2026-04-21_at_11.33.34.jpeg",
+      "stock": 1,
+      "is_available": true,
+      "created_at": "2026-05-09T04:40:41.534Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 18,
+    "fields": {
+      "sku": "1033",
+      "category": 1,
+      "name": "Dell Lattitude 5310",
+      "slug": "dell-lattitude-5310-1033",
+      "short_description": "💻 Dell Latitude 5310 adalah laptop kelas bisnis berukuran 13,3 inci yang dirilis sekitar tahun 2020. Laptop ini dikenal karena desainnya yang ringkas dan sangat portabel, daya tahan baterai yang lama, serta fleksibilitas upgrade hardware, sehingga cocok digunakan oleh profesional maupun pelajar.\r\n\r\n⚙️ Spesifikasi utama: laptop ini menggunakan prosesor Intel Core generasi ke-10 (Comet Lake) dengan beberapa pilihan, yaitu Core i5-10210U, i5-10310U, hingga Core i7-10610U. Untuk tampilan, tersedia layar 13,3 inci dengan resolusi Full HD (1920 x 1080), dan beberapa varian juga hadir dalam versi 2-in-1 dengan layar sentuh yang dapat diputar hingga 360 derajat.\r\n\r\n🧠 Pada bagian memori dan penyimpanan, Dell Latitude 5310 dibekali dua slot RAM SODIMM yang mendukung hingga 32GB DDR4, memberikan keleluasaan untuk upgrade. Penyimpanan menggunakan SSD NVMe dengan kapasitas mulai dari 256GB hingga 1TB yang memastikan performa tetap cepat dan responsif.\r\n\r\n🌐 Dari sisi konektivitas, laptop ini sudah mendukung Wi-Fi 6 dan Bluetooth 5.1. Port yang tersedia juga cukup lengkap, termasuk USB-C dengan dukungan Power Delivery dan DisplayPort, dua USB-A 3.2, HDMI 1.4, serta pembaca kartu microSD.\r\n\r\n🔋 Untuk daya tahan, baterainya berkapasitas hingga 60 Wh yang mampu bertahan sekitar 11 hingga 15 jam pada penggunaan ringan, sehingga cukup andal untuk mobilitas tinggi.\r\n\r\n🔐 Dari sisi keamanan, laptop ini dilengkapi fitur kelas bisnis seperti sensor sidik jari, kamera IR untuk Windows Hello, serta chip keamanan TPM 2.0 yang menjaga data tetap aman.\r\n\r\n✨ Secara keseluruhan, Dell Latitude 5310 merupakan pilihan ideal bagi pengguna yang membutuhkan laptop ringan, aman, dan tetap bertenaga untuk kebutuhan kerja sehari-hari.",
+      "specifications": {
+        "Processor": "Core i5 Gen 10",
+        "RAM": "8 GB DDR 4",
+        "SSD": "256 GB Nvme",
+        "Screen": "13.3"
+      },
+      "price": 4600000,
+      "old_price": 4800000,
+      "garansi": "6",
+      "condition": "AA+",
+      "is_sale": true,
+      "image": "products/WhatsApp_Image_2026-04-21_at_11.26.35.jpeg",
+      "stock": 1,
+      "is_available": true,
+      "created_at": "2026-05-09T04:43:40.476Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 19,
+    "fields": {
+      "sku": "1037",
+      "category": 1,
+      "name": "Dell Lattitude 5410",
+      "slug": "dell-lattitude-5410-1037",
+      "short_description": "💻 Dell Latitude 5310 adalah laptop kelas bisnis berukuran 13,3 inci yang dirilis sekitar tahun 2020. Laptop ini dikenal karena desainnya yang ringkas dan sangat portabel, daya tahan baterai yang lama, serta fleksibilitas upgrade hardware, sehingga cocok digunakan oleh profesional maupun pelajar.\r\n\r\n⚙️ Spesifikasi utama: laptop ini menggunakan prosesor Intel Core generasi ke-10 (Comet Lake) dengan beberapa pilihan, yaitu Core i5-10210U, i5-10310U, hingga Core i7-10610U. Untuk tampilan, tersedia layar 13,3 inci dengan resolusi Full HD (1920 x 1080), dan beberapa varian juga hadir dalam versi 2-in-1 dengan layar sentuh yang dapat diputar hingga 360 derajat.\r\n\r\n🧠 Pada bagian memori dan penyimpanan, Dell Latitude 5310 dibekali dua slot RAM SODIMM yang mendukung hingga 32GB DDR4, memberikan keleluasaan untuk upgrade. Penyimpanan menggunakan SSD NVMe dengan kapasitas mulai dari 256GB hingga 1TB yang memastikan performa tetap cepat dan responsif.\r\n\r\n🌐 Dari sisi konektivitas, laptop ini sudah mendukung Wi-Fi 6 dan Bluetooth 5.1. Port yang tersedia juga cukup lengkap, termasuk USB-C dengan dukungan Power Delivery dan DisplayPort, dua USB-A 3.2, HDMI 1.4, serta pembaca kartu microSD.\r\n\r\n🔋 Untuk daya tahan, baterainya berkapasitas hingga 60 Wh yang mampu bertahan sekitar 11 hingga 15 jam pada penggunaan ringan, sehingga cukup andal untuk mobilitas tinggi.\r\n\r\n🔐 Dari sisi keamanan, laptop ini dilengkapi fitur kelas bisnis seperti sensor sidik jari, kamera IR untuk Windows Hello, serta chip keamanan TPM 2.0 yang menjaga data tetap aman.\r\n\r\n✨ Secara keseluruhan, Dell Latitude 5310 merupakan pilihan ideal bagi pengguna yang membutuhkan laptop ringan, aman, dan tetap bertenaga untuk kebutuhan kerja sehari-hari.",
+      "specifications": {
+        "Processor": "Core i5 Gen 10",
+        "RAM": "8 GB DDR 4",
+        "SSD": "256 GB Nvme",
+        "Screen": "13.3\""
+      },
+      "price": 4950000,
+      "old_price": 4800000,
+      "garansi": "6",
+      "condition": "AA+",
+      "is_sale": true,
+      "image": "products/WhatsApp_Image_2026-05-06_at_10.43.18.jpeg",
+      "stock": 1,
+      "is_available": true,
+      "created_at": "2026-05-09T04:44:49.488Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 20,
+    "fields": {
+      "sku": "1038",
+      "category": 1,
+      "name": "Dell Lattitude 5420",
+      "slug": "dell-lattitude-5420-core-i5-gen-10-ram-8-ssd-128",
+      "short_description": "💻 Dell Latitude 5420 adalah laptop bisnis 14 inci yang hadir sebagai penerus Latitude 5410 sekaligus peningkatan signifikan dari Latitude 5310. Laptop ini menggunakan prosesor Intel Core generasi ke-11 (Tiger Lake) yang menawarkan performa lebih kencang dan efisiensi lebih baik, terutama pada kemampuan grafis berkat Intel Iris Xe.\r\n\r\n🚀 Dibandingkan Latitude 5310, Dell Latitude 5420 hadir dengan beberapa peningkatan penting. Layarnya lebih besar dengan ukuran 14 inci, memberikan area kerja yang lebih nyaman. Prosesor generasi ke-11 juga membawa peningkatan performa single-core dan multitasking yang lebih terasa dibanding generasi ke-10 pada Latitude 5310.\r\n\r\n🧠 Dari sisi memori, Latitude 5420 mendukung RAM hingga 64GB DDR4 3200 MHz, dua kali lebih besar dibandingkan Latitude 5310. Kemampuan grafisnya juga lebih baik karena varian Core i5 dan i7 sudah menggunakan Intel Iris Xe Graphics yang cukup mumpuni untuk editing ringan, desain grafis dasar, hingga kebutuhan multimedia sehari-hari.\r\n\r\n⚙️ Untuk spesifikasi utama, laptop ini tersedia dengan pilihan prosesor mulai dari Intel Core i3-1115G4 hingga Intel Core i7-1185G7 vPro. Layarnya menggunakan panel 14 inci Full HD (1920 x 1080) Anti-Glare, tersedia juga opsi touchscreen dengan tingkat kecerahan hingga 400 nits yang nyaman digunakan di berbagai kondisi pencahayaan.\r\n\r\n💾 Pada sektor penyimpanan, Dell Latitude 5420 menggunakan SSD NVMe Gen 4 dengan kapasitas hingga 2TB yang menawarkan kecepatan baca dan tulis lebih tinggi untuk menunjang produktivitas.\r\n\r\n🌐 Dari sisi konektivitas, laptop ini sudah sangat lengkap dengan dua port Thunderbolt 4 (USB-C), dua USB-A 3.2, HDMI 2.0, port LAN RJ-45, serta pembaca kartu microSD. Dukungan konektivitas modern ini membuat laptop cocok digunakan untuk kebutuhan kerja hybrid maupun profesional.\r\n\r\n🔋 Dell Latitude 5420 juga dibekali pilihan baterai 42Wh atau 63Wh dengan fitur ExpressCharge yang mampu mengisi daya hingga 80% hanya dalam waktu sekitar satu jam, sangat membantu untuk mobilitas tinggi.\r\n\r\n✨ Secara keseluruhan, Dell Latitude 5420 merupakan laptop bisnis modern dengan performa lebih kencang, layar lebih lega, serta kemampuan upgrade yang sangat baik, cocok untuk pekerja profesional, mahasiswa, maupun pengguna yang membutuhkan laptop tangguh untuk produktivitas harian.",
+      "specifications": {
+        "Processor": "Core i5 Gen 10",
+        "RAM": "8 GB DDR 4",
+        "SSD": "128 GB Nvme",
+        "Screen": ""
+      },
+      "price": 4700000,
+      "old_price": 4900000,
+      "garansi": "6",
+      "condition": "AA+",
+      "is_sale": true,
+      "image": "products/WhatsApp_Image_2026-05-06_at_10.23.48.jpeg",
+      "stock": 1,
+      "is_available": true,
+      "created_at": "2026-05-09T05:02:08.519Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 21,
+    "fields": {
+      "sku": "1043",
+      "category": 1,
+      "name": "HP Elitebook 830-G6",
+      "slug": "hp-elitebook-830-g6-core-i5-ram-8-ssd-256",
+      "short_description": "💻 HP EliteBook 830 G6 adalah laptop bisnis premium berukuran 13,3 inci yang dirilis pada tahun 2019. Laptop ini hadir dengan desain elegan berbahan aluminium CNC yang kokoh namun tetap ringan, menjadikannya pilihan ideal untuk profesional yang mengutamakan mobilitas dan tampilan premium.\r\n\r\n⚙️ Laptop ini menggunakan prosesor Intel Core generasi ke-8 (Whiskey Lake) dengan pilihan seperti Intel Core i5-8265U dan Intel Core i7-8565U. Meskipun generasinya sedikit lebih lama dibanding beberapa laptop bisnis terbaru, performanya masih sangat mumpuni untuk kebutuhan kerja, multitasking, dan produktivitas harian.\r\n\r\n🖥️ HP EliteBook 830 G6 dibekali layar 13,3 inci Full HD IPS yang tajam dan nyaman digunakan dalam waktu lama. Beberapa varian juga sudah dilengkapi teknologi HP Sure View, yaitu fitur layar privasi terintegrasi dengan tingkat kecerahan hingga 1000 nits, membantu menjaga kerahasiaan tampilan layar saat digunakan di tempat umum.\r\n\r\n✨ Dari sisi desain, laptop ini tampil sangat premium dengan bodi aluminium CNC yang kokoh namun ringan, memiliki bobot sekitar 1,33 kg sehingga nyaman dibawa bepergian maupun digunakan untuk mobilitas tinggi.\r\n\r\n🔊 Salah satu keunggulan utama HP EliteBook 830 G6 ada pada sektor audio. Laptop ini menggunakan sistem suara dari Bang & Olufsen yang menghasilkan kualitas audio lebih jernih dan lebih baik dibanding kebanyakan laptop bisnis pada umumnya.\r\n\r\n🔐 Untuk keamanan dan fitur bisnis, laptop ini sudah dilengkapi penutup privasi webcam, sensor sidik jari, kamera IR untuk Windows Hello, serta dukungan Thunderbolt 3 melalui port USB-C yang memberikan konektivitas cepat dan modern.\r\n\r\n🌐 Secara keseluruhan, HP EliteBook 830 G6 merupakan laptop bisnis premium yang menawarkan desain mewah, build quality sangat solid, fitur keamanan lengkap, serta pengalaman audio yang unggul, cocok untuk profesional dan pengguna yang menginginkan laptop elegan dengan kualitas tinggi.",
+      "specifications": {
+        "Processor": "Core i5 Gen 8",
+        "RAM": "8 GB DDR 4",
+        "SSD": "256 GB Nvme",
+        "Screen": "13.3\""
+      },
+      "price": 4500000,
+      "old_price": 4800000,
+      "garansi": "6",
+      "condition": "AAA+",
+      "is_sale": true,
+      "image": "products/HP_Elitebook_830_G6.jpg",
+      "stock": 1,
+      "is_available": true,
+      "created_at": "2026-05-09T05:13:33.433Z"
+    }
+  },
+  {
+    "model": "katalog.product",
+    "pk": 22,
+    "fields": {
+      "sku": "1044",
+      "category": 1,
+      "name": "HP Elitebook 830-G6",
+      "slug": "hp-elitebook-830-g6-core-i5-ram-8-ssd-256nvme",
+      "short_description": "💻 HP EliteBook 830 G6 adalah laptop bisnis premium berukuran 13,3 inci yang dirilis pada tahun 2019. Laptop ini hadir dengan desain elegan berbahan aluminium CNC yang kokoh namun tetap ringan, menjadikannya pilihan ideal untuk profesional yang mengutamakan mobilitas dan tampilan premium.\r\n\r\n⚙️ Laptop ini menggunakan prosesor Intel Core generasi ke-8 (Whiskey Lake) dengan pilihan seperti Intel Core i5-8265U dan Intel Core i7-8565U. Meskipun generasinya sedikit lebih lama dibanding beberapa laptop bisnis terbaru, performanya masih sangat mumpuni untuk kebutuhan kerja, multitasking, dan produktivitas harian.\r\n\r\n🖥️ HP EliteBook 830 G6 dibekali layar 13,3 inci Full HD IPS yang tajam dan nyaman digunakan dalam waktu lama. Beberapa varian juga sudah dilengkapi teknologi HP Sure View, yaitu fitur layar privasi terintegrasi dengan tingkat kecerahan hingga 1000 nits, membantu menjaga kerahasiaan tampilan layar saat digunakan di tempat umum.\r\n\r\n✨ Dari sisi desain, laptop ini tampil sangat premium dengan bodi aluminium CNC yang kokoh namun ringan, memiliki bobot sekitar 1,33 kg sehingga nyaman dibawa bepergian maupun digunakan untuk mobilitas tinggi.\r\n\r\n🔊 Salah satu keunggulan utama HP EliteBook 830 G6 ada pada sektor audio. Laptop ini menggunakan sistem suara dari Bang & Olufsen yang menghasilkan kualitas audio lebih jernih dan lebih baik dibanding kebanyakan laptop bisnis pada umumnya.\r\n\r\n🔐 Untuk keamanan dan fitur bisnis, laptop ini sudah dilengkapi penutup privasi webcam, sensor sidik jari, kamera IR untuk Windows Hello, serta dukungan Thunderbolt 3 melalui port USB-C yang memberikan konektivitas cepat dan modern.\r\n\r\n🌐 Secara keseluruhan, HP EliteBook 830 G6 merupakan laptop bisnis premium yang menawarkan desain mewah, build quality sangat solid, fitur keamanan lengkap, serta pengalaman audio yang unggul, cocok untuk profesional dan pengguna yang menginginkan laptop elegan dengan kualitas tinggi.",
+      "specifications": {
+        "Processor": "Core i5 Gen 8",
+        "RAM": "8 GB DDR 4",
+        "SSD": "256 GB Nvme",
+        "Screen": "13.3\""
+      },
+      "price": 4500000,
+      "old_price": 4800000,
+      "garansi": "6",
+      "condition": "AAA+",
+      "is_sale": true,
+      "image": "products/Jual-Laptop-HP-EliteBook-830-G6-Core-i7-Gen8.JPG",
+      "stock": 1,
+      "is_available": true,
+      "created_at": "2026-05-09T05:20:04.830Z"
+    }
+  },
+  {
+    "model": "katalog.category",
+    "pk": 1,
+    "fields": {
+      "name": "Laptop/Notebook",
+      "slug": "laptop",
+      "required_spec_keys": "Processor, RAM, SSD, Screen",
+      "icon": "fa-laptop"
+    }
+  },
+  {
+    "model": "katalog.category",
+    "pk": 2,
+    "fields": {
+      "name": "Sparepart",
+      "slug": "sparepart",
+      "required_spec_keys": "",
+      "icon": "fa-chain"
+    }
+  },
+  {
+    "model": "katalog.category",
+    "pk": 3,
+    "fields": {
+      "name": "Speaker / Headphone",
+      "slug": "speaker-headphone",
+      "required_spec_keys": "Type, Konektivitas",
+      "icon": "fa-speaker"
+    }
+  },
+  {
+    "model": "katalog.category",
+    "pk": 4,
+    "fields": {
+      "name": "Macbook",
+      "slug": "macbook",
+      "required_spec_keys": "Model, Tahun, Processor, RAM, SSD, Screen",
+      "icon": ""
+    }
+  },
+  {
+    "model": "katalog.category",
+    "pk": 5,
+    "fields": {
+      "name": "Personal Computer / Desktop",
+      "slug": "pc-computer",
+      "required_spec_keys": "Processor, RAM, SSD, Motherboard, Casing, Monitor",
+      "icon": ""
+    }
+  },
+  {
+    "model": "katalog.category",
+    "pk": 6,
+    "fields": {
+      "name": "Printer & Scanner",
+      "slug": "printer-scanner",
+      "required_spec_keys": "Printer, Scanner, Wifi, Tank, Color, Duplex Scan",
+      "icon": ""
+    }
+  },
+  {
+    "model": "katalog.category",
+    "pk": 7,
+    "fields": {
+      "name": "Penyimpanan Data",
+      "slug": "penyimpanan-data",
+      "required_spec_keys": "Merek, Tipe, Kapasistas",
+      "icon": ""
+    }
+  },
+  {
+    "model": "katalog.category",
+    "pk": 8,
+    "fields": {
+      "name": "Acessories",
+      "slug": "acessories",
+      "required_spec_keys": "Merek, Tipe, Model, Varian, Warna",
+      "icon": ""
+    }
+  },
+  {
+    "model": "katalog.category",
+    "pk": 9,
+    "fields": {
+      "name": "LCD/Layar",
+      "slug": "lcd-layar",
+      "required_spec_keys": "Ukuran, Kuping, Ketebalan, Resolusi, Refresh Rate",
+      "icon": ""
+    }
+  }
+]

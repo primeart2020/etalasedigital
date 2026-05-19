@@ -26,7 +26,6 @@ class ProductForm(forms.ModelForm):
             'short_description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'stock': forms.NumberInput(attrs={'class': 'form-control'}),
             'garansi': forms.Select(attrs={'class': 'form-select'}),
-            # 'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
 
     def __init__(self, *args, **kwargs):

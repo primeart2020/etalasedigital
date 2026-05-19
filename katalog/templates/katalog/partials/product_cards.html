@@ -1,16 +1,16 @@
 {% load humanize %}
 
 {% for p in products %}
-
 <div class="card-body p-2 d-flex flex-column">
     <!-- Link tetap aktif agar user bisa lihat spek produk yang sudah laku sebagai referensi -->
     <a href="{% url 'product_detail' p.slug %}" class="text-decoration-none text-dark">
         <div class="card h-100 border-0 shadow-sm card-shopee" style="border-radius: 4px; overflow: hidden;">
             <!-- Gambar Produk -->
             <div class="position-relative">
-                <!-- Tambahkan filter grayscale jika stok 0 -->
-                <img src="{{ p.image.url }}" class="card-img-top" 
-                     style="aspect-ratio: 1/1; object-fit: cover; {% if p.stock <= 0 %} filter: grayscale(100%) opacity(0.6); {% endif %}">
+            <!-- Tambahkan filter grayscale jika stok 0 -->
+            <img src="{{ p.main_image_url }}" class="card-img-top" 
+                style="aspect-ratio: 1/1; object-fit: cover; {% if p.stock <= 0 %} filter: grayscale(100%) opacity(0.6); {% endif %}" 
+                alt="{{ p.name }}">
 
                 <!-- Overlay Label SOLD OUT -->
                 {% if p.stock <= 0 %}
@@ -21,8 +21,7 @@
 
                 <!-- Label New Arrival (Hanya tampil jika stok ada) -->
                 {% if p.is_new_product and p.stock > 0 %}
-                <div class="position-absolute top-0 start-0 bg-warning px-2 py-1 text-dark fw-bold"
-                    style="font-size: 10px;">
+                <div class="position-absolute top-0 start-0 bg-warning px-2 py-1 text-dark fw-bold" style="font-size: 10px;">
                     New Arrival
                 </div>
                 {% endif %}
@@ -37,26 +36,23 @@
                     </span>
                 </div>
 
-                <!-- Diskon Label (Sembunyikan jika Sold) -->
-<!-- Label Status Harga (Naik/Turun) -->
-<!-- Label Status Harga di Thumbnail -->
-{% if p.old_price and p.old_price != p.price and p.stock > 0 %}
-    {% if p.is_price_up %}
-        <div class="position-absolute top-0 end-0 bg-danger px-2 py-1 small fw-bold text-dark d-flex align-items-center"
-             style="border-bottom-left-radius: 10px; z-index: 10;">
-            <i class="bi bi-caret-up-fill me-1"></i> Naik {{ p.price_diff_percent }}% 
-        </div>
-    {% else %}
-        <div class="position-absolute top-0 end-0 bg-warning px-2 py-1 small fw-bold d-flex align-items-center"
-             style="color: #ff0000; border-bottom-left-radius: 10px; z-index: 10;">
-            <i class="bi bi-caret-down-fill me-1"></i> Disc {{ p.price_diff_percent }}%
-        </div>
-    {% endif %}
-{% endif %}
+                <!-- Label Status Harga di Thumbnail -->
+                {% if p.old_price and p.old_price != p.price and p.stock > 0 %}
+                    {% if p.is_price_up %}
+                        <div class="position-absolute top-0 end-0 bg-danger px-2 py-1 small fw-bold text-dark d-flex align-items-center"
+                             style="border-bottom-left-radius: 10px; z-index: 10;">
+                            <i class="bi bi-caret-up-fill me-1"></i> Naik {{ p.price_diff_percent }}% 
+                        </div>
+                    {% else %}
+                        <div class="position-absolute top-0 end-0 bg-warning px-2 py-1 small fw-bold d-flex align-items-center"
+                             style="color: #ff0000; border-bottom-left-radius: 10px; z-index: 10;">
+                            <i class="bi bi-caret-down-fill me-1"></i> Disc {{ p.price_diff_percent }}%
+                        </div>
+                    {% endif %}
+                {% endif %}
             </div>
 
             <div class="card-body p-2 d-flex flex-column">
-
                 <!-- Menampilkan SKU -->
                 <div class="d-flex gap-3 mb-1">
                     <span class="badge bg-light text-dark border">
@@ -64,68 +60,64 @@
                     </span>
                 </div>
                 
-<!-- Nama Produk (DISET 1 BARIS & TANPA TINGGI STATIS) -->
-    <h4 class="card-title mb-0 fw-bold {% if p.stock <= 0 %} text-muted {% endif %}"
-        style="font-size: 15px; 
-               line-height: 1.2; 
-               white-space: nowrap; 
-               overflow: hidden; 
-               text-overflow: ellipsis; 
-               margin-bottom: 2px !important;">
-        {{ p.name }}
-    </h4>
-                
-<!-- Area Spesifikasi Super Tipis -->
-<!-- Hilangkan margin-top dan kecilkan min-height -->
-<div class="product-specs-limit mb-1" style="min-height: auto; line-height: 1; margin-top: 2px;">
-    <div class="specs-container-limit">
-        {% for value in p.get_specs_as_list %}
-            <div class="badge-item" style="display: flex;">
-                <span class="badge badge-ekstrim-langsing border-0" 
-                      style="font-size: 0.85rem; 
-                             padding: 1px 6px; 
-                             background-color: #cd008f; 
-                             color: #ffffff; 
-                             border-radius: 1px;
-                             margin: 0.5px 0; /* Jarak vertikal antar badge makin tipis */
-                             cursor: default;">
-                    {{ value }}
-                </span>
-            </div>
-        {% empty %}
-            <!-- Kosongkan saja agar tidak makan tempat jika tidak ada spek -->
-        {% endfor %}
-    </div>
+                <!-- Nama Produk -->
+                <h4 class="card-title mb-0 fw-bold {% if p.stock <= 0 %} text-muted {% endif %}"
+                    style="font-size: 15px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px !important;">
+                    {{ p.name }}
+                </h4>
+                <!-- KODE MENU OWNER (Hanya muncul jika kamu sudah login) -->
+<!-- KODE MENU OWNER (Sudah disinkronkan menggunakan p.pk) -->
+{% if user.is_authenticated %}
+<div class="mt-3 pt-2 border-top d-flex gap-2" style="position: relative; z-index: 20;">
+    <!-- Menggunakan p.pk agar terbaca di dalam loop -->
+    <a href="{% url 'edit_product' p.pk %}" class="btn btn-sm btn-warning text-white w-100 fw-semibold">
+        ⚙️ Edit
+    </a>
+    <a href="{% url 'delete_product' p.pk %}" class="btn btn-sm btn-outline-danger w-100 fw-semibold">
+        🗑️ Hapus
+    </a>
 </div>
+{% endif %}
+                
+                <!-- Area Spesifikasi Super Tipis -->
+                <div class="product-specs-limit mb-1" style="min-height: auto; line-height: 1; margin-top: 2px;">
+                    <div class="specs-container-limit">
+                        {% for value in p.get_specs_as_list %}
+                            <div class="badge-item" style="display: flex;">
+                                <span class="badge badge-ekstrim-langsing border-0" 
+                                      style="font-size: 0.85rem; padding: 1px 6px; background-color: #cd008f; color: #ffffff; border-radius: 1px; margin: 0.5px 0; cursor: default;">
+                                    {{ value }}
+                                </span>
+                            </div>
+                        {% empty %}
+                            <!-- Kosongkan saja agar tidak makan tempat jika tidak ada spek -->
+                        {% endfor %}
+                    </div>
+                </div>
 
-                <!-- Info Garansi (Satu Baris) -->
+                <!-- Info Garansi -->
                 <div class="mb-1 d-flex align-items-center text-success" style="font-size: 0.7rem;">
                     <i class="fas fa-shield-alt me-1"></i>
                     <span>Garansi: {{ p.get_garansi_display }}</span>
                 </div>
 
+<!-- Info Harga (Sejajar & Super Rapat untuk HP) -->
+<div class="mt-auto d-flex align-items-center flex-wrap gap-0" style="letter-spacing: -0.2px;">
+    <!-- Harga Baru/Utama -->
+    <div class="fw-bold" style="color: {% if p.stock <= 0 %} #6c757d {% else %} #ee4d2d {% endif %}; font-size: 15px; line-height: 1;">
+        Rp{{ p.price|intcomma }}
+    </div>
 
-                <!-- Info Harga -->
-                <div class="mt-auto d-flex justify-content-between align-items-center">
-                    {% if p.is_sale and p.old_price %}
-                        <div class="text-muted text-decoration-line-through ms-2" 
-                            style="font-size: 10px;">
-                            Rp {{ p.old_price|intcomma }}
-                        </div>
-                        
-                    {% endif %}
-                    <div class="fw-bold" 
-                        style="color: {% if p.stock <= 0 %} #6c757d {% else %} #ee4d2d {% endif %}; font-size: 15px;">
-                        Rp {{ p.price|intcomma }}
-                    </div>
-                </div>
-
-
-
+    <!-- Harga Lama (Dicoret) dengan jarak super tipis (ms-1 diganti gaya custom) -->
+    {% if p.is_sale and p.old_price %}
+        <div class="text-muted text-decoration-line-through" style="font-size: 10.5px; line-height: 1; margin-left: 3px;">
+            Rp{{ p.old_price|intcomma }}
+        </div>
+    {% endif %}
+</div>
                 
-                <div class="d-flex justify-content-between align-items-center mt-2 border-top pt-2"
-                    style="font-size: 10px; color: rgba(0,0,0,.54);">
-
+                <!-- Footer Card (Stok & Kategori) -->
+                <div class="d-flex justify-content-between align-items-center mt-2 border-top pt-2" style="font-size: 10px; color: rgba(0,0,0,.54);">
                     <span>
                         {% if p.stock > 0 %}
                             <i class="fas fa-check-circle text-success"></i> Stok {{ p.stock }}
@@ -139,26 +131,23 @@
                 {% if request.headers.HX_Request %}
                     {% include 'katalog/partials/filter_button.html' %}
                 {% endif %}
-
             </div>
         </div>
     </a>
 </div>
 
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500&display=swap');
 
-@keyframes pulse-super-subtle {
+/* @keyframes pulse-super-subtle {
     0% { transform: scale(0.95); }
     50% { transform: scale(1); background-color: #0ac5d6; }
     100% { transform: scale(0.95); }
-}
+} */
 
 .specs-container-limit {
     display: flex;
     flex-wrap: wrap;
-    /* Jarak vertikal 0px, horizontal 3px */
     gap: 0px 3px; 
     margin: 0;
     padding: 0;
@@ -173,7 +162,6 @@
     align-items: center;
     line-height: 1;
     animation: pulse-super-subtle 2s infinite ease-in-out;
-    /* Menghilangkan sisa space line-height */
     vertical-align: middle;
 }
 </style>

@@ -130,6 +130,39 @@
                     </ul>
                 </li>
 
+                <!-- SUNTIKAN KODE PENGOTOR NAVBAR (Khusus Owner / Admin) -->
+    {% if user.is_authenticated %}
+    <li class="nav-item dropdown bg-warning-subtle rounded px-2 border border-warning">
+        <a class="nav-link dropdown-toggle text-dark fw-bold" href="#" id="ownerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            🛠️ Menu Owner
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="ownerDropdown">
+            <li>
+                <a class="dropdown-item fw-semibold py-2" href="{% url 'add_product' %}">
+                    ➕ Tambah Produk Baru
+                </a>
+            </li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li>
+                <!-- Tombol Logout bawaan Django -->
+                <form action="{% url 'logout' %}" method="POST" class="px-3 py-1">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-outline-danger w-100 fw-bold">
+                        🔒 Keluar (Logout)
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </li>
+    {% else %}
+    <!-- Tombol Login (Hanya muncul jika belum login) -->
+    <li class="nav-item">
+        <a class="btn btn-sm btn-danger px-3 fw-bold ms-2" href="{% url 'login' %}">Masuk</a>
+    </li>
+    {% endif %}
+
             </ul>
         </div>
     </div>

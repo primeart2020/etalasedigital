@@ -22,4 +22,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('katalog.urls')),
+    
+    # JALUR RAHASIA: Ini yang mendaftarkan login, logout, password_change, dll secara otomatis
+    path('accounts/', include('django.contrib.auth.urls')),
+    
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

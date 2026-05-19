@@ -1,0 +1,100 @@
+[
+{
+  "model": "katalog.category",
+  "pk": 1,
+  "fields": {
+    "name": "Laptop/Notebook",
+    "slug": "laptop",
+    "required_spec_keys": "Processor, RAM, SSD, Screen",
+    "icon": "fa-laptop"
+  }
+},
+{
+  "model": "katalog.category",
+  "pk": 2,
+  "fields": {
+    "name": "Sparepart",
+    "slug": "sparepart",
+    "required_spec_keys": "",
+    "icon": "fa-chain"
+  }
+},
+{
+  "model": "katalog.category",
+  "pk": 3,
+  "fields": {
+    "name": "Speaker / Headphone",
+    "slug": "speaker-headphone",
+    "required_spec_keys": "Type, Konektivitas",
+    "icon": "fa-speaker"
+  }
+},
+{
+  "model": "katalog.category",
+  "pk": 4,
+  "fields": {
+    "name": "Macbook",
+    "slug": "macbook",
+    "required_spec_keys": "Model, Tahun, Processor, RAM, SSD, Screen",
+    "icon": ""
+  }
+},
+{
+  "model": "katalog.category",
+  "pk": 5,
+  "fields": {
+    "name": "Personal Computer / Desktop",
+    "slug": "pc-computer",
+    "required_spec_keys": "Processor, RAM, SSD, Motherboard, Casing, Monitor",
+    "icon": ""
+  }
+},
+{
+  "model": "katalog.category",
+  "pk": 6,
+  "fields": {
+    "name": "Printer & Scanner",
+    "slug": "printer-scanner",
+    "required_spec_keys": "Printer, Scanner, Wifi, Tank, Color, Duplex Scan",
+    "icon": ""
+  }
+},
+{
+  "model": "katalog.category",
+  "pk": 7,
+  "fields": {
+    "name": "Penyimpanan Data",
+    "slug": "penyimpanan-data",
+    "required_spec_keys": "Merek, Tipe, Kapasistas",
+    "icon": ""
+  }
+},
+{
+  "model": "katalog.category",
+  "pk": 8,
+  "fields": {
+    "name": "Acessories",
+    "slug": "acessories",
+    "required_spec_keys": "Merek, Tipe, Model, Varian, Warna",
+    "icon": ""
+  }
+},
+{
+  "model": "katalog.category",
+  "pk": 9,
+  "fields": {
+    "name": "LCD/Layar",
+    "slug": "lcd-layar",
+    "required_spec_keys": "Ukuran, Kuping, Ketebalan, Resolusi, Refresh Rate",
+    "icon": ""
+  }
+},
+{
+  "model": "katalog.product",
+  "pk": 1,
+  "fields": {
+    "sku": "0050",
+    "category": 1,
+    "name": "Lenovo Thinkpad X250",
+    "slug": "laptop-lenovo-thinkpad-x250",
+    "short_description": 
