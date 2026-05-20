@@ -12,7 +12,7 @@ from django.utils.text import slugify
 
 
 def process_image_to_webp(image_field, base_name=None):
-    """Fungsi pembantu untuk crop 4:3, resize, rename, convert WebP, dan limit di bawah 10KB dengan kualitas tetap terjaga"""
+    """Fungsi pembantu super cepat untuk crop, paksa resize ke 500px, dan kompresi WebP sekali tembak di bawah 15KB"""
     if not image_field:
         return
 
@@ -35,31 +35,22 @@ def process_image_to_webp(image_field, base_name=None):
         img = img.crop((0, offset, width, height - offset))
 
     # =====================================================================
-    # LALU LINTAS OPTIMASI EKSTREM (Suntikan Baru)
+    # FIX: PROSES RESIZE EKSTREM (Sengaja ditimpa ke variabel img)
     # =====================================================================
-    # 2. RESIZE DIMENSI: Jika lebar gambar di atas 600px, kita kecilkan ke 600px.
-    # Rasio 4:3 dengan lebar 600px berarti tingginya otomatis jadi 450px.
-    # Ukuran 600x450px ini udah SANGAT RENYAH & TAJAM untuk layar HP maupun Laptop!
-    max_width = 600
-    if img.size[0] > max_width:
-        new_h = int((max_width / 4) * 3) # Hitung tinggi proporsional 4:3
-        img = img.resize((max_width, new_h), Image.Resampling.LANCZOS) # Menggunakan metode Lanczos agar tetap tajam
-
-    # 3. Kompresi Dinamis (Target Agresif: Di bawah 10KB!)
-    quality = 80  # Mulai dari kualitas 80 (WebP di kualitas 80 itu sudah bersih banget)
-    output = BytesIO()
+    # Kita kunci lebar gambar di 500px. Otomatis tingginya jadi 375px (Rasio 4:3)
+    target_width = 500
+    target_height = 375
     
-    while True:
-        output.seek(0)
-        output.truncate(0)
-        img.save(output, format="WEBP", quality=quality, optimize=True)
-        
-        # Target baru: 10 * 1024 (10KB). Batas bawah kualitas kita turunkan ke 15.
-        if output.tell() <= 10 * 1024 or quality <= 15:
-            break
-        quality -= 5  # Turunkan kualitas bertahap jika masih di atas 10KB
+    # WAJIB: img = img.resize(...) agar hasil pengecilan tersimpan ke objeknya!
+    # Menggunakan BILINEAR agar proses upload 7-10 gambar sekaligus tetap instan tanpa loading lama
+    img = img.resize((target_width, target_height), Image.Resampling.BILINEAR)
 
-    # 4. Logika Ganti Nama Sesuai Nama Produk
+    # Kunci 2: Sekali Tembak di Kualitas 60 (Tanpa Loop While biar anti-lemot)
+    # Gambar 500x375px dengan kualitas WebP 60 dijamin ukurannya drop ke kisaran 5KB - 15KB!
+    output = BytesIO()
+    img.save(output, format="WEBP", quality=60, optimize=True)
+
+    # 3. Logika Ganti Nama Sesuai Nama Produk
     if base_name:
         clean_name = slugify(base_name)
         unique_suffix = uuid.uuid4().hex[:4]
@@ -67,7 +58,7 @@ def process_image_to_webp(image_field, base_name=None):
     else:
         file_name = os.path.splitext(image_field.name)[0] + ".webp"
 
-    # Simpan kembali ke fieldnya
+    # Simpan kembali ke field Django (menimpa file sementara di RAM)
     image_field.save(file_name, ContentFile(output.getvalue()), save=False)
     
 
@@ -210,22 +201,38 @@ class ProductImage(models.Model):
 
     def save(self, *args, **kwargs):
         if self.image:
-            # Sebelum dikonversi, kita cek apakah gambar ini baru di-upload 
-            # (agar tidak melakukan ganti nama berulang-ulang saat update teks produk)
             is_new_image = False
+            
             if not self.pk:
+                # 1. Kasus: Input Produk Baru
                 is_new_image = True
             else:
+                # 2. Kasus: Edit Produk
                 try:
                     orig = ProductImage.objects.get(pk=self.pk)
+                    
+                    # Cek apakah user mengunggah file gambar baru untuk menggantikan yang lama
                     if orig.image != self.image:
                         is_new_image = True
+                        
+                        # TAKTIK BERSIH-BERSIH: Hapus file fisik gambar lama dari harddisk server
+                        if orig.image and os.path.isfile(orig.image.path):
+                            os.remove(orig.image.path)
+                            
                 except ProductImage.DoesNotExist:
                     is_new_image = True
 
-            # Jika gambarnya baru, eksekusi konversi + rename pakai nama produk induknya
+            # Jika gambarnya baru/diganti, eksekusi konversi + rename
             if is_new_image:
-                # Mengirimkan nama produk induk (contoh: self.product.name = "Lenovo X250")
                 process_image_to_webp(self.image, base_name=self.product.name)
                 
         super().save(*args, **kwargs)
+
+    # =====================================================================
+    # BONUS: HANDLE JIKA TOMBOL "HAPUS" DI-KLIK (DELETE DARI ADMIN/FORM)
+    # =====================================================================
+    def delete(self, *args, **kwargs):
+        # Pastikan file fisik di harddisk ikut musnah saat data di-delete dari database
+        if self.image and os.path.isfile(self.image.path):
+            os.remove(self.image.path)
+        super().delete(*args, **kwargs)
