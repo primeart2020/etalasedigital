@@ -6,43 +6,46 @@
 
 <!-- 1. CSS CUSTOM -->
 <style>
-/* Hilangkan background putih modal dan border */
-#imageModal .modal-content {
-    background-color: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-}
+    /* Hilangkan background putih modal dan border */
+    #imageModal .modal-content {
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
 
-/* Hilangkan padding bawaan modal body */
-#imageModal .modal-body {
-    padding: 0 !important;
-}
+    /* Hilangkan padding bawaan modal body */
+    #imageModal .modal-body {
+        padding: 0 !important;
+    }
 
-/* Background overlay (layar belakang) dibuat hitam pekat */
-.modal-backdrop.show {
-    opacity: 0.95 !important;
-}
+    /* Background overlay (layar belakang) dibuat hitam pekat */
+    .modal-backdrop.show {
+        opacity: 0.95 !important;
+    }
 
-/* Ukuran gambar di dalam modal */
-.modalSwiper img {
-    max-height: 90vh; /* Sisakan sedikit ruang untuk tombol close */
-    width: auto;
-    max-width: 100%;
-    object-fit: contain;
-    /* Hilangkan border kalau ada */
-    border: none !important; 
-    border-radius: 8px; /* Biar tetap smooth di pojok */
-}
+    /* Ukuran gambar di dalam modal */
+    .modalSwiper img {
+        max-height: 90vh;
+        /* Sisakan sedikit ruang untuk tombol close */
+        width: auto;
+        max-width: 100%;
+        object-fit: contain;
+        /* Hilangkan border kalau ada */
+        border: none !important;
+        border-radius: 8px;
+        /* Biar tetap smooth di pojok */
+    }
 
-/* Tombol close agar mengambang di pojok kanan atas */
-.btn-close-modal {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 9999;
-    filter: invert(1); /* Bikin tombol close jadi putih */
-    opacity: 0.8;
-}
+    /* Tombol close agar mengambang di pojok kanan atas */
+    .btn-close-modal {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        filter: invert(1);
+        /* Bikin tombol close jadi putih */
+        opacity: 0.8;
+    }
 </style>
 
 <!-- BREADCRUMB (Bisa ditaruh langsung atau via partial) -->
@@ -59,47 +62,47 @@
 
 <div class="container mt-4 mb-5">
     <div class="row g-4">
-<!-- KOLOM KIRI: GAMBAR -->
-<div class="col-md-6">
-    <div class="card border-0 shadow-sm overflow-hidden">
-        
-<!-- Gambar Utama (Klik untuk Modal, Hover untuk Zoom) -->
-<div class="img-main-wrapper" id="zoomContainer" data-bs-toggle="modal" data-bs-target="#imageModal">
-    {% if product.images.all %}
-        <!-- Ambil objek pertama lalu simpan ke variabel 'first_gallery' -->
-        {% with product.images.all|first as first_gallery %}
-            <img src="{{ first_gallery.image.url }}" id="expandedImg" alt="{{ product.name }}">
-        {% endwith %}
-    {% else %}
-        <!-- Gambar cadangan jika produk tidak punya gambar sama sekali -->
-        <img src="/static/images/no-image.jpg" id="expandedImg" alt="No Image Available">
-    {% endif %}
-</div>
+        <!-- KOLOM KIRI: GAMBAR -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm overflow-hidden">
 
-        <!-- Slider Thumbnail -->
-        <div class="p-3 bg-light border-top position-relative">
-            <div class="swiper mySwiper">
-                <div class="swiper-wrapper">
-                    {% for gallery in product.images.all %}
-                    <div class="swiper-slide">
-                        <!-- 'forloop.first' otomatis memberikan class 'active-thumb' hanya pada gambar pertama -->
-                        <img src="{{ gallery.image.url }}" 
-                             class="img-fluid opacity-75 {% if forloop.first %}active-thumb{% endif %}" 
-                             onclick="changeImg('{{ gallery.image.url }}', this)">
-                    </div>
-                    {% empty %}
-                    <div class="swiper-slide">
-                        <small class="text-muted">Tidak ada gambar</small>
-                    </div>
-                    {% endfor %}
+                <!-- Gambar Utama (Klik untuk Modal, Hover untuk Zoom) -->
+                <div class="img-main-wrapper" id="zoomContainer" data-bs-toggle="modal" data-bs-target="#imageModal">
+                    {% if product.images.all %}
+                    <!-- Ambil objek pertama lalu simpan ke variabel 'first_gallery' -->
+                    {% with product.images.all|first as first_gallery %}
+                    <img src="{{ first_gallery.image.url }}" id="expandedImg" alt="{{ product.name }}">
+                    {% endwith %}
+                    {% else %}
+                    <!-- Gambar cadangan jika produk tidak punya gambar sama sekali -->
+                    <img src="/static/images/no-image.jpg" id="expandedImg" alt="No Image Available">
+                    {% endif %}
                 </div>
-                <div class="swiper-button-next" style="color: #333; transform: scale(0.5);"></div>
-                <div class="swiper-button-prev" style="color: #333; transform: scale(0.5);"></div>
+
+                <!-- Slider Thumbnail -->
+                <div class="p-3 bg-light border-top position-relative">
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            {% for gallery in product.images.all %}
+                            <div class="swiper-slide">
+                                <!-- 'forloop.first' otomatis memberikan class 'active-thumb' hanya pada gambar pertama -->
+                                <img src="{{ gallery.image.url }}"
+                                    class="img-fluid opacity-75 {% if forloop.first %}active-thumb{% endif %}"
+                                    onclick="changeImg('{{ gallery.image.url }}', this)">
+                            </div>
+                            {% empty %}
+                            <div class="swiper-slide">
+                                <small class="text-muted">Tidak ada gambar</small>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="swiper-button-next" style="color: #333; transform: scale(0.5);"></div>
+                        <div class="swiper-button-prev" style="color: #333; transform: scale(0.5);"></div>
+                    </div>
+                </div>
+
             </div>
         </div>
-
-    </div>
-</div>
 
 
         <!-- BAGIAN INFO PRODUK (Kanan) -->
@@ -118,20 +121,22 @@
                     </span>
                 </div>
                 <h1 class="h3 fw-bold mb-1">{{ product.name }}</h1>
-{% if user.is_authenticated %}
-<div class="admin-actions my-3 p-3 bg-light rounded d-flex align-items-center justify-content-between border border-warning-subtle">
-    <span class="text-muted small"><strong>⚙️ Mode Owner Aktif:</strong> Kelola produk ini</span>
-    <div class="d-flex gap-2">
-        <!-- Ganti ke product.pk -->
-        <a href="{% url 'edit_product' product.pk %}" class="btn btn-sm btn-warning text-white fw-bold px-3">
-            Edit Detail & Gambar
-        </a>
-        <a href="{% url 'delete_product' product.pk %}" class="btn btn-sm btn-outline-danger px-3">
-            Hapus Produk
-        </a>
-    </div>
-</div>
-{% endif %}
+                {% if user.is_authenticated %}
+                <div
+                    class="admin-actions my-3 p-3 bg-light rounded d-flex align-items-center justify-content-between border border-warning-subtle">
+                    <span class="text-muted small"><strong>⚙️ Mode Owner Aktif:</strong> Kelola produk ini</span>
+                    <div class="d-flex gap-2">
+                        <!-- Ganti ke product.pk -->
+                        <a href="{% url 'edit_product' product.pk %}"
+                            class="btn btn-sm btn-warning text-white fw-bold px-3">
+                            Edit Detail & Gambar
+                        </a>
+                        <a href="{% url 'delete_product' product.pk %}" class="btn btn-sm btn-outline-danger px-3">
+                            Hapus Produk
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
 
 
                 <!-- Area Spesifikasi   -->
@@ -166,27 +171,27 @@
                     <span class="text-muted small">(Recomended)</span>
                 </div>
 
-<div class="price-box mb-4 p-3 bg-light rounded shadow-sm">
-    <h2 class="text-shopee fw-bold mb-0">Rp {{ product.price|intcomma }}</h2>
-    
-    {% if product.old_price and product.old_price != product.price %}
-    <div class="text-muted small">
-        <del>Rp {{ product.old_price|intcomma }}</del>
-        
-        {% if product.is_price_up %}
-            <!-- Tampilan kalau HARGA NAIK -->
-            <span class="badge bg-danger text-white ms-2">
-                Naik {{ product.price_diff_percent }}%
-            </span>
-        {% else %}
-            <!-- Tampilan kalau HARGA TURUN (Hemat) -->
-            <span class="badge bg-warning text-dark ms-2">
-                Hemat {{ product.price_diff_percent }}%
-            </span>
-        {% endif %}
-    </div>
-    {% endif %}
-</div>
+                <div class="price-box mb-4 p-3 bg-light rounded shadow-sm">
+                    <h2 class="text-shopee fw-bold mb-0">Rp {{ product.price|intcomma }}</h2>
+
+                    {% if product.old_price and product.old_price != product.price %}
+                    <div class="text-muted small">
+                        <del>Rp {{ product.old_price|intcomma }}</del>
+
+                        {% if product.is_price_up %}
+                        <!-- Tampilan kalau HARGA NAIK -->
+                        <span class="badge bg-danger text-white ms-2">
+                            Naik {{ product.price_diff_percent }}%
+                        </span>
+                        {% else %}
+                        <!-- Tampilan kalau HARGA TURUN (Hemat) -->
+                        <span class="badge bg-warning text-dark ms-2">
+                            Hemat {{ product.price_diff_percent }}%
+                        </span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
 
                 <!-- Stock dan Link Share -->
                 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
@@ -305,7 +310,7 @@
 <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
     <!-- Tombol Close mandiri di pojok -->
     <button type="button" class="btn-close btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
-    
+
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-body">
@@ -322,7 +327,7 @@
                         </div>
                         {% endfor %}
                     </div>
-                    
+
                     <!-- Navigasi Panah -->
                     <div class="swiper-button-next" style="color: white;"></div>
                     <div class="swiper-button-prev" style="color: white;"></div>
@@ -345,7 +350,7 @@
 
     function handleZoom(e) {
         let x, y;
-        
+
         // Jika event berasal dari sentuhan (Mobile)
         if (e.type.includes('touch')) {
             if (e.touches.length === 0) return;
@@ -353,7 +358,7 @@
             const rect = container.getBoundingClientRect();
             x = ((touch.clientX - rect.left) / container.offsetWidth) * 100;
             y = ((touch.clientY - rect.top) / container.offsetHeight) * 100;
-        } 
+        }
         // Jika event berasal dari mouse (Desktop)
         else {
             x = (e.offsetX / container.offsetWidth) * 100;
@@ -435,7 +440,7 @@
     modalEl.addEventListener('shown.bs.modal', function () {
         if (modalSwiper) {
             modalSwiper.update();
-            
+
             // Opsional: Cari tahu gambar utama yang sedang aktif, lalu arahkan slide modal ke gambar tersebut
             const currentSrc = img.getAttribute('src');
             const slides = modalEl.querySelectorAll('.swiper-slide img');

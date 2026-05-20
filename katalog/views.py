@@ -65,7 +65,7 @@ def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug, is_available=True)
     
     # Ambil produk terkait (opsional, dari kategori yang sama)
-    related_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:4]
+    related_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:20]
     
     context = {
         'product': product,
