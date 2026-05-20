@@ -1,48 +1,74 @@
 {% load static %}
 
 <!-- HOT DEAL SECTION -->
-<div id="hot-deal" class="section py-5 my-4" style="background: linear-gradient(45deg, #1a1a1a 30%, #333 100%); border-radius: 0px; overflow: hidden; position: relative;">
-    <!-- Dekorasi Latar Belakang (Opsional) -->
-    <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: rgba(255, 193, 7, 0.1); border-radius: 50%;"></div>
-    
+<div id="hot-deal" 
+     class="section py-3 my-3"
+     style="background: linear-gradient(45deg, #1a1a1a 30%, #333 100%); overflow: hidden; position: relative;">
+
+    <!-- Background Decoration -->
+    <div class="hot-bg-circle"></div>
+
     <div class="container position-relative">
-        <div class="row align-items-center">
-            <div class="col-md-12 text-center">
-                <div class="hot-deal">
-                    <!-- Timer atau Badge (Opsional, buat kesan urgent) -->
-                    <span class="badge bg-warning text-dark mb-3 px-3 py-2 fw-bold text-uppercase" style="letter-spacing: 2px;">
-                        <i class="fas fa-bolt me-1"></i> Flash Sale
-                    </span>
-                    
-                    <h2 class="text-uppercase fw-black text-white mb-2" style="font-size: 2.5rem; letter-spacing: -1px;">
-                        PROMO <span class="text-warning">HARI INI</span>
-                    </h2>
-                    
-                    <p class="text-light opacity-75 mb-4" style="font-size: 1.1rem;">
-                        Dapatkan Laptop Impian dengan Diskon Hingga <span class="fw-bold text-warning">30% OFF</span>
-                    </p>
-                    
-                    <!-- Tombol dengan Efek Hover -->
-                    <a class="btn btn-warning btn-lg fw-bold px-5 py-3 rounded-pill shadow" href="#" style="transition: all 0.3s ease;">
-                        LIHAT PROMO <i class="fas fa-arrow-right ms-2"></i>
-                    </a>
-                </div>
-            </div>
+        <div class="text-center">
+
+            <!-- Flash Sale Badge -->
+            <span class="flash-sale-badge">
+                <i class="fas fa-bolt me-1"></i> Flash Sale
+            </span>
+
+            <h2 class="text-uppercase fw-bold text-white mb-1"
+                style="font-size:2rem; letter-spacing:-1px;">
+                PROMO <span class="text-warning">HARI INI</span>
+            </h2>
+
+            <p class="text-light opacity-75 mb-0"
+               style="font-size:.95rem;">
+                Dapatkan Laptop Impian | Diskon Hingga
+                <span class="fw-bold text-warning">20% OFF</span>
+            </p>
+
         </div>
     </div>
 </div>
 
 <style>
-    /* Animasi kecil agar tombol lebih hidup */
-    .hot-deal .btn:hover {
-        transform: scale(1.05);
-        background-color: #ffca2c;
-        box-shadow: 0 10px 20px rgba(255, 193, 7, 0.3) !important;
+    /* Background circle */
+    .hot-bg-circle{
+        position:absolute;
+        top:-60px;
+        right:-60px;
+        width:180px;
+        height:180px;
+        background:rgba(255,193,7,.08);
+        border-radius:50%;
     }
-    
-    /* Font tebal untuk heading */
-    .fw-black {
-        font-weight: 900;
+
+    /* Flash sale badge */
+    .flash-sale-badge{
+        display:inline-flex;
+        align-items:center;
+        gap:4px;
+        background:linear-gradient(135deg,#ffc107,#ff9800);
+        color:#111;
+        padding:8px 16px;
+        border-radius:50px;
+        font-size:.72rem;
+        font-weight:800;
+        letter-spacing:1px;
+        text-transform:uppercase;
+        margin-bottom:10px;
+        box-shadow:0 4px 12px rgba(255,193,7,.25);
+        transition:all .25s ease;
+    }
+
+    .flash-sale-badge:hover{
+        transform:translateY(-2px) scale(1.03);
+        box-shadow:0 8px 18px rgba(255,193,7,.35);
+    }
+
+    /* Optional */
+    .fw-black{
+        font-weight:900;
     }
 </style>
 <!-- /HOT DEAL SECTION -->

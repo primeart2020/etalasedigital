@@ -1,131 +1,121 @@
 {% load humanize %}
 {% for p in products %}
-<div class="col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
-    <!-- Link membungkus seluruh kartu dengan rapi -->
-    <a href="{% url 'product_detail' p.slug %}" class="text-decoration-none text-dark w-100">
-        <div class="card h-100 border-0 shadow-sm card-shopee d-flex flex-column" style="border-radius: 4px; overflow: hidden;">
+<div class="col d-flex align-items-stretch">
+    <div class="card h-100 border-0 shadow-sm card-shopee d-flex flex-column position-relative w-100" style="border-radius: 4px; overflow: hidden; background: #fff;">
+        
+        <a href="{% url 'product_detail' p.slug %}" class="text-decoration-none text-dark d-flex flex-column h-100 w-100">
             
-            <!-- Gambar Produk & Badges Overlay -->
             <div class="position-relative">
-                <!-- Filter grayscale jika stok 0 -->
                 <img src="{{ p.main_image_url }}" class="card-img-top"
                     style="aspect-ratio: 1/1; object-fit: cover; {% if p.stock <= 0 %} filter: grayscale(100%) opacity(0.6); {% endif %}"
                     alt="{{ p.name }}">
 
-                <!-- Overlay Label SOLD OUT -->
                 {% if p.stock <= 0 %} 
-                <div class="position-absolute top-50 start-50 translate-middle w-100 text-center">
-                    <span class="badge bg-dark px-3 py-2 shadow-lg" style="opacity: 0.9; font-size: 14px; border: 2px solid #fff;">SOLD OUT</span>
+                <div class="position-absolute top-50 start-50 translate-middle w-100 text-center" style="z-index: 5;">
+                    <span class="badge bg-dark px-2 py-1 shadow-lg" style="opacity: 0.9; font-size: 12px; border: 1px solid #fff;">SOLD OUT</span>
                 </div>
                 {% endif %}
 
-                <!-- Label New Arrival -->
                 {% if p.is_new_product and p.stock > 0 %}
-                <div class="position-absolute top-0 start-0 bg-warning px-2 py-1 text-dark fw-bold" style="font-size: 10px;">
+                <div class="position-absolute top-0 start-0 bg-warning px-2 py-1 text-dark fw-bold" style="font-size: 9px; z-index: 5;">
                     New Arrival
                 </div>
                 {% endif %}
 
-                <!-- Badge Condition -->
-                <div class="position-absolute bottom-0 start-0 m-2">
-                    <span class="badge opacity-85 {% if p.condition == 'NEW' %} bg-danger {% elif p.condition == 'AA+' %} bg-info {% else %} bg-dark {% endif %}" style="font-size: 9px;">
+                <div class="position-absolute bottom-0 start-0 m-1" style="z-index: 5;">
+                    <span class="badge opacity-85 {% if p.condition == 'NEW' %} bg-danger {% elif p.condition == 'AA+' %} bg-info {% else %} bg-dark {% endif %}" style="font-size: 8px; padding: 2px 4px;">
                         {{ p.get_condition_display }}
                     </span>
                 </div>
 
-                <!-- Label Diskon / Kenaikan Harga -->
                 {% if p.old_price and p.old_price != p.price and p.stock > 0 %}
                     {% if p.is_price_up %}
-                    <div class="position-absolute top-0 end-0 bg-danger px-2 py-1 small fw-bold text-white d-flex align-items-center" style="border-bottom-left-radius: 10px; z-index: 10;">
-                        <i class="bi bi-caret-up-fill me-1"></i> Naik {{ p.price_diff_percent }}%
+                    <div class="position-absolute top-0 end-0 bg-danger px-1 py-1 text-white d-flex align-items-center" style="border-bottom-left-radius: 8px; z-index: 5; font-size: 9px; font-weight: bold;">
+                        <i class="bi bi-caret-up-fill me-0.5"></i> {{ p.price_diff_percent|stringformat:"d" }}%
                     </div>
                     {% else %}
-                    <div class="position-absolute top-0 end-0 bg-warning px-2 py-1 small fw-bold d-flex align-items-center" style="color: #000000; border-bottom-left-radius: 10px; z-index: 10;">
-                        <i class="bi bi-caret-down-fill me-1"></i> Disc {{ p.price_diff_percent }}%
+                    <div class="position-absolute top-0 end-0 bg-warning px-1 py-1 d-flex align-items-center" style="color: #000000; border-bottom-left-radius: 8px; z-index: 5; font-size: 9px; font-weight: bold;">
+                        <i class="bi bi-caret-down-fill me-0.5"></i> -{{ p.price_diff_percent|cut:"-" }}%
                     </div>
                     {% endif %}
                 {% endif %}
             </div>
 
-            <!-- Konten Detail Kartu -->
-            <div class="card-body p-2 d-flex flex-column flex-grow-1">
-<!-- Baris SKU & FOMO Mini -->
-    <div class="d-flex align-items-center gap-1 gap-sm-2 mb-2 flex-nowrap overflow-hidden w-100">
-        <span class="badge bg-light text-dark border py-1 px-2 flex-grow-1 text-truncate text-start" style="font-size: 10px; max-width: 50%;">
-            <i class="fas fa-barcode me-1 text-muted"></i>SKU {{ p.sku|default:"-" }}
-        </span>
+            <div class="card-body p-2 d-flex flex-column flex-grow-1 {% if user.is_authenticated %}pb-4{% endif %}">
+                <div class="d-flex align-items-center gap-1 mb-1 flex-nowrap overflow-hidden w-100">
+                    <span class="badge bg-light text-dark border py-1 px-1 flex-grow-1 text-truncate text-start"
+                        style="font-size: 10px; max-width: 50%;">
+                        <i class="fas fa-barcode me-1 text-muted"></i>SKU {{ p.sku|default:"-" }}
+                    </span>
+                    <span class="badge bg-light text-dark border py-1 px-1 d-flex align-items-center flex-grow-1 justify-content-center" style="font-size: 8px; white-space: nowrap; max-width: 50%;">
+                        <span class="pulse-dot-mini me-1"></span>
+                        <span class="text-muted text-truncate">
+                            <strong class="text-info card-viewers" data-product="{{ p.id }}">12</strong> melihat
+                        </span>
+                    </span>
+                </div>
 
-        <span class="badge bg-light text-dark border py-1 px-2 d-flex align-items-center flex-grow-1 justify-content-center" style="font-size: 10px; white-space: nowrap; max-width: 50%;">
-            <span class="pulse-dot-mini me-1"></span>
-            <i class="fas fa-eye text-muted me-1"></i>
-            <span class="text-muted">
-                <!-- ID kita hapus karena sekarang kita tembak langsung pakai taktik "previousElementSibling" -->
-                <strong class="text-danger card-viewers" data-product="{{ p.id }}">12</strong> melihat
-            </span>
-        </span>
-    </div>
-
-                <!-- Nama Produk -->
-                <h4 class="card-title mb-0 fw-bold {% if p.stock <= 0 %} text-muted {% endif %}" style="font-size: 15px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px !important;">
+                <h4 class="card-title mb-1 fw-bold {% if p.stock <= 0 %} text-muted {% endif %}" style="font-size: 13px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                     {{ p.name }}
                 </h4>
 
-                <!-- Menu Tombol Owner (Hanya jika Login) -->
-                {% if user.is_authenticated %}
-                <div class="mt-2 pt-2 border-top d-flex gap-2 position-relative" style="z-index: 20;">
-                    <a href="{% url 'edit_product' p.pk %}" class="btn btn-sm btn-warning text-white w-100 fw-semibold">⚙️ Edit</a>
-                    <a href="{% url 'delete_product' p.pk %}" class="btn btn-sm btn-outline-danger w-100 fw-semibold">🗑️ Hapus</a>
-                </div>
-                {% endif %}
-
-                <!-- Spesifikasi Produk -->
-                <div class="product-specs-limit mb-1 mt-1" style="line-height: 1;">
+                <div class="product-specs-limit mb-1" style="line-height: 1;">
                     <div class="specs-container-limit d-flex flex-wrap gap-1">
                         {% for value in p.get_specs_as_list %}
-                        <span class="badge" style="font-size: 0.75rem; padding: 2px 6px; background-color: #cd008f; color: #ffffff; border-radius: 2px;">
+                        <span class="badge" style="font-size: 0.65rem; padding: 2px 4px; background-color: #cd008f; color: #ffffff; border-radius: 2px;">
                             {{ value }}
                         </span>
                         {% endfor %}
                     </div>
                 </div>
 
-                <!-- Info Garansi -->
-                <div class="mb-2 d-flex align-items-center text-success" style="font-size: 0.7rem;">
+                <div class="mb-2 d-flex align-items-center text-success" style="font-size: 0.65rem;">
                     <i class="fas fa-shield-alt me-1"></i>
-                    <span>Garansi: {{ p.get_garansi_display }}</span>
+                    <span class="text-truncate">Garansi: {{ p.get_garansi_display }}</span>
                 </div>
 
-                <!-- Info Harga (Dipaksa nempel ke bawah) -->
                 <div class="mt-auto d-flex align-items-center flex-wrap gap-1" style="letter-spacing: -0.2px;">
-                    <div class="fw-bold" style="color: {% if p.stock <= 0 %} #6c757d {% else %} #ee4d2d {% endif %}; font-size: 15px; line-height: 1;">
+                    <div class="fw-bold" style="color: {% if p.stock <= 0 %} #6c757d {% else %} #ee4d2d {% endif %}; font-size: 14px; line-height: 1;">
                         Rp{{ p.price|intcomma }}
                     </div>
                     {% if p.is_sale and p.old_price %}
-                    <div class="text-muted text-decoration-line-through" style="font-size: 10.5px; line-height: 1;">
+                    <div class="text-muted text-decoration-line-through" style="font-size: 10px; line-height: 1;">
                         Rp{{ p.old_price|intcomma }}
                     </div>
                     {% endif %}
                 </div>
 
-                <!-- Footer Card (Stok & Kategori) -->
-                <div class="d-flex justify-content-between align-items-center mt-2 border-top pt-2" style="font-size: 10px; color: rgba(0,0,0,.54);">
-                    <span>
-                        {% if p.stock > 0 %}
-                        <i class="fas fa-check-circle text-success"></i> Stok {{ p.stock }}
-                        {% else %}
-                        <i class="fas fa-times-circle text-danger"></i> Habis Terjual
-                        {% endif %}
+                <div class="d-flex justify-content-between align-items-center mt-1 border-top pt-1" style="font-size: 9px; color: rgba(0,0,0,.54);">
+                    <span class="text-truncate">
+                        {% if p.stock > 0 %}Stok {{ p.stock }}{% else %}Habis{% endif %}
                     </span>
-                    <span><i class="fas fa-tags"></i> {{ p.category.name }}</span>
+                    <span class="text-truncate"><i class="fas fa-tags"></i> {{ p.category.name }}</span>
                 </div>
-
             </div>
+        </a>
+
+        {% if user.is_authenticated %}
+        <div class="position-absolute bottom-0 end-0 m-1 d-flex gap-1" style="z-index: 40; bottom: 20px !important;">
+            <a href="{% url 'edit_product' p.pk %}" 
+               class="text-decoration-none d-flex align-items-center justify-content-center" 
+               style="width: 28px; height: 28px; font-size: 1.1rem; color: #ffc107;" 
+               title="Edit">
+               <i class="bi bi-pencil-square"></i>
+            </a>
+            
+            <a href="{% url 'delete_product' p.pk %}" 
+               class="text-decoration-none d-flex align-items-center justify-content-center" 
+               style="width: 28px; height: 28px; font-size: 1.1rem; color: #dc3545;" 
+               title="Hapus">
+               <i class="bi bi-trash"></i>
+            </a>
         </div>
-    </a>
+        {% endif %}
+
+    </div>
 </div>
 
 {% empty %}
-<!-- ELEMENT BLOK KOSONG (Penyelamat jika hasil ketikan search tidak ada yang cocok) -->
 <div class="col-12 text-center py-5 my-4 w-100">
     <div class="text-muted mb-2">
         <i class="fas fa-search-minus fa-3x" style="color: #cbd5e1;"></i>
@@ -136,62 +126,18 @@
         Reset Pencarian
     </a>
 </div>
+{% endfor %}
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500&display=swap');
-
-    /* @keyframes pulse-super-subtle {
-    0% { transform: scale(0.95); }
-    50% { transform: scale(1); background-color: #0ac5d6; }
-    100% { transform: scale(0.95); }
-} */
-
-    .specs-container-limit {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0px 3px;
-        margin: 0;
-        padding: 0;
+    .specs-container-limit { display: flex; flex-wrap: wrap; gap: 2px; margin: 0; padding: 0; }
+    .pulse-dot-mini {
+        width: 5px; height: 5px; background-color: #00c0e2; border-radius: 50%; display: inline-block;
+        box-shadow: 0 0 0 0 rgba(66, 24, 6, 0.7); animation: pulse-green-mini 1.8s infinite;
     }
-
-    .badge-ekstrim-langsing {
-        font-family: 'Barlow Condensed', sans-serif;
-        font-weight: 1000;
-        letter-spacing: -0.1px;
-        text-transform: uppercase;
-        display: inline-flex;
-        align-items: center;
-        line-height: 1;
-        animation: pulse-super-subtle 2s infinite ease-in-out;
-        vertical-align: middle;
-
-        .pulse-dot-mini {
-            width: 6px;
-            height: 6px;
-            background-color: #2ec4b6;
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 0 0 rgba(46, 196, 182, 0.7);
-            animation: pulse-green-mini 1.8s infinite;
-        }
-
-        @keyframes pulse-green-mini {
-            0% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(46, 196, 182, 0.7);
-            }
-
-            70% {
-                transform: scale(1);
-                box-shadow: 0 0 0 4px rgba(46, 196, 182, 0);
-            }
-
-            100% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(46, 196, 182, 0);
-            }
-        }
+    @keyframes pulse-green-mini {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 196, 182, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 3px rgba(46, 196, 182, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 196, 182, 0); }
     }
 </style>
-
-{% endfor %}
