@@ -17,8 +17,18 @@
                 {% endif %}
 
                 {% if p.is_new_product and p.stock > 0 %}
-                <div class="position-absolute top-0 start-0 bg-warning px-2 py-1 text-dark fw-bold" style="font-size: 9px; z-index: 5;">
-                    New Arrival
+                <div class="position-absolute top-0 start-0 px-2 py-1 text-white d-flex align-items-center shadow-sm" 
+                    style="background: linear-gradient(135deg, #ff0844, #ffb199); 
+                            border-bottom-right-radius: 8px; 
+                            z-index: 5; 
+                            font-size: 9px; 
+                            font-weight: 800; 
+                            letter-spacing: 0.8px;
+                            text-transform: uppercase;
+                            border-right: 1px solid rgba(255,255,255,0.2);
+                            border-bottom: 1px solid rgba(255,255,255,0.2);">
+                    <i class="bi bi-fire me-1 text-warning" style="font-size: 10px;"></i> 
+                    <span>NEW ARRIVAL</span>
                 </div>
                 {% endif %}
 
@@ -28,17 +38,36 @@
                     </span>
                 </div>
 
-                {% if p.old_price and p.old_price != p.price and p.stock > 0 %}
-                    {% if p.is_price_up %}
-                    <div class="position-absolute top-0 end-0 bg-danger px-1 py-1 text-white d-flex align-items-center" style="border-bottom-left-radius: 8px; z-index: 5; font-size: 9px; font-weight: bold;">
-                        <i class="bi bi-caret-up-fill me-0.5"></i> {{ p.price_diff_percent|stringformat:"d" }}%
-                    </div>
-                    {% else %}
-                    <div class="position-absolute top-0 end-0 bg-warning px-1 py-1 d-flex align-items-center" style="color: #000000; border-bottom-left-radius: 8px; z-index: 5; font-size: 9px; font-weight: bold;">
-                        <i class="bi bi-caret-down-fill me-0.5"></i> -{{ p.price_diff_percent|cut:"-" }}%
-                    </div>
-                    {% endif %}
-                {% endif %}
+{% if p.old_price and p.old_price != p.price and p.stock > 0 %}
+    {% if p.is_price_up %}
+    <div class="position-absolute top-0 end-0 px-2 py-1 text-white d-flex align-items-center shadow-sm" 
+         style="background: linear-gradient(135deg, #ff3b30, #c30010); 
+                border-bottom-left-radius: 8px; 
+                z-index: 5; 
+                font-size: 10px; 
+                font-weight: 800; 
+                letter-spacing: 0.5px;
+                border-left: 1px solid rgba(255,255,255,0.2);
+                border-bottom: 1px solid rgba(255,255,255,0.2);">
+        <i class="bi bi-graph-up-arrow me-1" style="font-size: 9px;"></i> 
+        <span>{{ p.price_diff_percent|stringformat:"d" }}%</span>
+    </div>
+    {% else %}
+    <div class="position-absolute top-0 end-0 px-2 py-1 d-flex align-items-center shadow-sm" 
+         style="background: linear-gradient(135deg, #ffe000, #ff9900); 
+                color: #000000; 
+                border-bottom-left-radius: 8px; 
+                z-index: 5; 
+                font-size: 10px; 
+                font-weight: 800; 
+                letter-spacing: 0.5px;
+                border-left: 1px solid rgba(0,0,0,0.05);
+                border-bottom: 1px solid rgba(0,0,0,0.05);">
+        <i class="bi bi-lightning-fill me-0.5 text-danger" style="font-size: 9px;"></i> 
+        <span>Disc -{{ p.price_diff_percent|cut:"-" }}%</span>
+    </div>
+    {% endif %}
+{% endif %}
             </div>
 
             <div class="card-body p-2 d-flex flex-column flex-grow-1 {% if user.is_authenticated %}pb-4{% endif %}">
