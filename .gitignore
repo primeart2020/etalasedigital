@@ -7,6 +7,13 @@
 #
 
 
+# Static build
+staticfiles/
+
+# Media uploads
+media/
+
+
 # Abaikan database lokal
 db.sqlite3
 *.sqlite3
