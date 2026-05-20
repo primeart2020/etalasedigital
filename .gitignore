@@ -7,13 +7,15 @@
 #
 
 
-#venv
-venv/
+# Abaikan database lokal
+db.sqlite3
+*.sqlite3
 
-#python cache
+# Abaikan cache Python
 __pycache__/
 *.pyc
 
-
-#Databse
-db.sqlite3
+# Abaikan folder virtual environment
+venv/
+vnv/
+.env
