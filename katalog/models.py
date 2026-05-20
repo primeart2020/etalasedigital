@@ -12,7 +12,7 @@ from django.utils.text import slugify
 
 
 def process_image_to_webp(image_field, base_name=None):
-    """Fungsi pembantu untuk crop 4:3, rename sesuai produk, convert WebP, dan limit 100KB"""
+    """Fungsi pembantu untuk crop 4:3, resize, rename, convert WebP, dan limit di bawah 10KB dengan kualitas tetap terjaga"""
     if not image_field:
         return
 
@@ -34,28 +34,37 @@ def process_image_to_webp(image_field, base_name=None):
         offset = (height - new_height) // 2
         img = img.crop((0, offset, width, height - offset))
 
-    # 2. Kompresi Dinamis (Tetap aman pakai kodemu)
-    quality = 85
+    # =====================================================================
+    # LALU LINTAS OPTIMASI EKSTREM (Suntikan Baru)
+    # =====================================================================
+    # 2. RESIZE DIMENSI: Jika lebar gambar di atas 600px, kita kecilkan ke 600px.
+    # Rasio 4:3 dengan lebar 600px berarti tingginya otomatis jadi 450px.
+    # Ukuran 600x450px ini udah SANGAT RENYAH & TAJAM untuk layar HP maupun Laptop!
+    max_width = 600
+    if img.size[0] > max_width:
+        new_h = int((max_width / 4) * 3) # Hitung tinggi proporsional 4:3
+        img = img.resize((max_width, new_h), Image.Resampling.LANCZOS) # Menggunakan metode Lanczos agar tetap tajam
+
+    # 3. Kompresi Dinamis (Target Agresif: Di bawah 10KB!)
+    quality = 80  # Mulai dari kualitas 80 (WebP di kualitas 80 itu sudah bersih banget)
     output = BytesIO()
+    
     while True:
         output.seek(0)
         output.truncate(0)
         img.save(output, format="WEBP", quality=quality, optimize=True)
-        if output.tell() <= 100 * 1024 or quality <= 20:
-            break
-        quality -= 5
-
-    # 3. Logika Ganti Nama Sesuai Nama Produk
-    if base_name:
-        # Ubah "Lenovo X250" menjadi "lenovo-x250" agar aman untuk URL web
-        clean_name = slugify(base_name)
         
-        # Tambahkan string unik pendek di belakangnya (misal: lenovo-x250-a1b2) 
-        # Ini trik wajib agar jika user upload gambar dengan nama produk yang sama, filenya tidak saling menimpa
+        # Target baru: 10 * 1024 (10KB). Batas bawah kualitas kita turunkan ke 15.
+        if output.tell() <= 10 * 1024 or quality <= 15:
+            break
+        quality -= 5  # Turunkan kualitas bertahap jika masih di atas 10KB
+
+    # 4. Logika Ganti Nama Sesuai Nama Produk
+    if base_name:
+        clean_name = slugify(base_name)
         unique_suffix = uuid.uuid4().hex[:4]
         file_name = f"{clean_name}-{unique_suffix}.webp"
     else:
-        # Fallback jika lupa passing nama produk
         file_name = os.path.splitext(image_field.name)[0] + ".webp"
 
     # Simpan kembali ke fieldnya
