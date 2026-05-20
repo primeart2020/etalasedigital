@@ -3,57 +3,66 @@ from django.http import HttpResponse
 from django.contrib import messages
 from .models import Product, Category, ProductImage
 from .forms import ProductForm
+from django.db.models import Q
+
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.db.models import Case, When, Value, IntegerField
 
-def store(request):
-    # 1. Ambil semua produk (jangan pakai .all() dulu, biarkan QuerySet)
-    products = Product.objects.filter(is_available=True)
-    
-    # 2. Ambil parameter dari request
-    category_ids = request.GET.getlist('category')
-    min_price = request.GET.get('min_price')
-    max_price = request.GET.get('max_price')
-    sort_by = request.GET.get('sort')
+from django.shortcuts import render
+from django.db.models import Q, Case, When, Value, IntegerField, Count # <-- Pastikan Q di-import
+from .models import Product, Category
 
-    # --- LOGIKA FILTER ---
+def store(request):
+    # 1. Ambil semua produk yang aktif/tersedia terlebih dahulu
+    products = Product.objects.all() # atau .filter(is_active=True) jika ada
+    categories = Category.objects.all()
+
+    # 2. TANGKAP INPUT KEYWORD LIVE SEARCH (name="q")
+    query = request.GET.get('q', '').strip()
+    if query:
+        # Mencari berdasarkan nama produk ATAU deskripsi/spesifikasi
+        products = products.filter(name__icontains=query)
+
+    # 3. TANGKAP FILTER KATEGORI (Mendukung multi-select dari desktop & mobile)
+    category_ids = request.GET.getlist('category')
     if category_ids:
         products = products.filter(category_id__in=category_ids)
+
+    # 4. TANGKAP RENTANG HARGA (Dari modal mobile)
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
     if min_price:
         products = products.filter(price__gte=min_price)
     if max_price:
         products = products.filter(price__lte=max_price)
 
-    # --- LOGIKA SORTIR & PENGURUTAN STOK ---
-    # Kita tambahkan anotasi is_out_of_stock untuk menandai stock 0
-    products = products.annotate(
-        is_out_of_stock=Case(
-            When(stock__lte=0, then=Value(1)),
-            default=Value(0),
-            output_field=IntegerField(),
-        )
-    )
-
-    # Urutan Utama: Selalu 'is_out_of_stock' (stok ada dulu baru sold out)
-    # Urutan Kedua: Berdasarkan input user atau default
+    # 5. PROSES UTAMA: FITUR SORTIR / URUTKAN (name="sort")
+    sort_by = request.GET.get('sort', 'latest') # 'latest' jadi default jika kosong
     if sort_by == 'price_low':
-        products = products.order_by('is_out_of_stock', 'price')
+        products = products.order_by('price') # Harga terendah ke tertinggi
     elif sort_by == 'price_high':
-        products = products.order_by('is_out_of_stock', '-price')
-    elif sort_by == 'latest':
-        products = products.order_by('is_out_of_stock', '-id')
+        products = products.order_by('-price') # Harga tertinggi ke terendah (pake tanda minus)
     else:
-        products = products.order_by('is_out_of_stock', '-created_at')
+        products = products.order_by('-created_at') # 'latest' -> Berdasarkan tanggal input terbaru
 
+    # KUNCI BARU: Jika request datang dari HTMX
+    if request.headers.get('HX-Request'):
+        context = {
+            'products': products,
+            'categories': categories, # Kita ikut sertakan categories agar checkbox tahu mana yang aktif
+        }
+        # Kita arahkan ke file partial khusus HTMX
+        return render(request, 'katalog/partials/store_partials.html', context)
+
+    # Jika request biasa (refresh halaman)
     context = {
         'products': products,
-        'categories': Category.objects.annotate(total=Count('products')),
+        'categories': categories,
     }
-
-    if request.headers.get('HX-Request'):
-        return render(request, 'katalog/partials/product_cards.html', context)
     return render(request, 'katalog/store.html', context)
+
+
 
 def product_list(request):
     all_product = Product.objects.filter(is_available=True)
@@ -66,10 +75,12 @@ def product_detail(request, slug):
     
     # Ambil produk terkait (opsional, dari kategori yang sama)
     related_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:20]
+    site_url = request.build_absolute_uri('/')[:-1]  # Dapatkan URL dasar situs (tanpa trailing slash)
     
     context = {
         'product': product,
-        'related_products': related_products
+        'related_products': related_products,
+        'site_url': site_url
     }
     return render(request, 'katalog/product_detail.html', context)
 

@@ -1,14 +1,42 @@
 {% load static %}
+{% load humanize %}
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="utf-8">
-    <!-- Open Graph / Facebook / WhatsApp -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ request.build_absolute_uri }}">
-    <meta property="og:title" content="{{ product.name }} | PRIME.COM">
-    <meta property="og:description" content="Dapatkan laptop {{ product.name }} berkualitas dengan garansi {{ product.get_garansi_display }}. SKU: {{ product.sku }}">
-    <meta property="og:image" content="{{ product.image.url }}">
+    <!-- ======================================================= -->
+    <!-- RAMUAN OPEN GRAPH (OG) AGAR LINK WA MUNCUL GAMBAR & HARGA -->
+    <!-- ======================================================= -->
+    <!-- Judul Utama saat di-share -->
+    <meta property="og:title" content="🔥 {{ product.name }} - Murah Meriah!" />
+
+    <!-- Deskripsi singkat di bawah judul (Kasih harga & kondisi biar memancing klik!) -->
+    <meta property="og:description" content="Dapatkan {{ product.name }} Grade {{ product.condition }} hanya dengan Rp{{ product.price|intcomma }}. Stok sisa 1 unit, cek spesifikasi lengkapnya di sini!" />
+
+    <!-- URL Link Produk -->
+    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    <meta property="og:type" content="product" />
+
+    <!-- KUNCI UTAMA: Gambar yang bakal muncul di WhatsApp -->
+    <!-- Kita gabungkan domain website dengan URL gambar galeri WebP-mu -->
+    {% if product.images.all %}
+        <meta property="og:image" content="{{ site_url }}{{ product.images.first.image.url }}" />
+    {% else %}
+        <!-- Gambar cadangan jika laptop kebetulan gak ada fotonya -->
+        <meta property="og:image" content="{{ site_url }}/static/images/default-laptop.jpg" />
+    {% endif %}
+
+    <!-- Spesifikasi Ukuran untuk WhatsApp (Wajib Rasio Kotak atau 4:3 biar gak kepotong) -->
+    <!-- Berhubung kodemu sudah kita paksa crop 4:3 dan ukurannya mini, ini bakal ke-load instan di WA! -->
+    <meta property="og:image:width" content="500" />
+    <meta property="og:image:height" content="375" />
+    <meta property="og:image:type" content="image/webp" />
+
+    <!-- Nama Tokomu -->
+    <meta property="og:site_name" content="Toko Laptop Second Pro" />
+    <!-- ======================================================= -->
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PRIME.COM - Katalog Laptop</title>
 

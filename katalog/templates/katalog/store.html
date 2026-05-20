@@ -4,7 +4,6 @@
 {% block content %}
 {% include 'katalog/partials/hot_deal.html' %}
 
-
 <div id="main-content">
     <div class="container mt-4">
         <div class="row">
@@ -12,12 +11,14 @@
             <div class="col-lg-3 d-none d-lg-block">
                 <div class="card border-0 shadow-sm p-3">
                     <h5 class="fw-bold mb-3">Kategori</h5>
-                    <ul class="list-group list-group-flush">
+                    <ul class="list-group list-group-flush" id="desktop-category-sidebar"> <!-- Berikan ID di sini -->
                         {% for cat in categories %}
                         <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="category" value="{{ cat.id }}"
-                                    hx-get="{% url 'store' %}" hx-target="#product-list" hx-trigger="change">
+                                    hx-get="{% url 'store' %}" hx-target="#product-list" hx-trigger="change"
+                                    hx-include="[name='q'], [name='sort']"
+                                    {% if cat.id|stringformat:"i" in request.GET.getlist %}checked{% endif %}>
                                 <label class="form-check-label">{{ cat.name }}</label>
                             </div>
                         </li>
@@ -38,21 +39,45 @@
                     <div class="d-flex align-items-center ms-auto">
                         <span class="small me-2 d-none d-sm-inline">Urutkan:</span>
                         <select class="form-select form-select-sm border-0 bg-light" name="sort"
-                            hx-get="{% url 'store' %}" hx-target="#product-list" hx-trigger="change"
-                            hx-include="#filter-form, #mobile-filter-form" hx-push-url="true">
-                            <!-- Tambahkan ini agar URL di browser ikut berubah -->
-
-                            <option value="latest" {% if request.GET.sort == 'latest' %}selected{% endif %}>Terbaru
-                            </option>
-                            <option value="price_low" {% if request.GET.sort == 'price_low' %}selected{% endif %}>Harga
-                                Terendah</option>
-                            <option value="price_high" {% if request.GET.sort == 'price_high' %}selected{% endif %}>Harga
-                                Tertinggi</option>
+                            hx-get="{% url 'store' %}" 
+                            hx-target="#product-list" 
+                            hx-trigger="change"
+                            hx-include="[name='q'], #mobile-filter-form" 
+                            hx-push-url="true">
+                            
+                            <option value="latest" {% if request.GET.sort == 'latest' %}selected{% endif %}>Terbaru</option>
+                            <option value="price_low" {% if request.GET.sort == 'price_low' %}selected{% endif %}>Harga Terendah</option>
+                            <option value="price_high" {% if request.GET.sort == 'price_high' %}selected{% endif %}>Harga Tertinggi</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- Bagian yang akan di-update oleh HTMX -->
+<!-- INPUT LIVE SEARCH HTMX -->
+<div class="search-container mb-4 mx-auto" style="max-width: 500px;">
+    <div class="position-relative shadow-sm rounded border bg-white">
+        <span class="position-absolute top-50 start-0 translate-middle-y ps-3 text-muted">
+            <i class="fas fa-search"></i>
+        </span>
+        
+        <input 
+            type="text" 
+            name="q" 
+            class="form-control border-0 py-2 ps-5 pe-5" 
+            placeholder="Ketik ThinkPad, Core i5, RAM 8GB..." 
+            value="{{ request.GET.q|default:'' }}"
+            style="font-size: 14px;"
+            
+            /* SAKLAR LIVE SEARCH HTMX */
+            hx-get="{% url 'store' %}"
+            hx-trigger="keyup changed delay:500ms, search"
+            hx-target="#product-list"
+            /* KUNCI KESEMBUHAN: Tambahkan 'this' di awal list agar teks yang kamu ketik ikut dikirim! */
+            hx-include="this, #mobile-filter-form, [name='sort'], [name='category']"
+        >
+    </div>
+</div>
+
+                <!-- Tempat Produk Di-render Ulang -->
                 <div id="product-list" class="row row-cols-2 row-cols-md-3 g-3">
                     {% include 'katalog/partials/product_cards.html' %}
                 </div>
@@ -69,12 +94,18 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form id="mobile-filter-form" hx-get="{% url 'store' %}" hx-target="#product-list" hx-push-url="true">
+                <form id="mobile-filter-form" 
+      hx-get="{% url 'store' %}" 
+      hx-target="#product-list" 
+      hx-push-url="true"
+      hx-include="[name='q'], [name='sort']"> <!-- Dia yang nge-include search atas, bukan bikin input baru -->
+                    <!-- Menyertakan input search yang sedang aktif di dalam form modal agar datanya tidak hilang saat filter diganti -->
+                    <!-- <input type="hidden" name="q" value="{{ request.GET.q|default:'' }}"> -->
+                    
                     <div class="modal-body">
                         <!-- RENTANG HARGA -->
                         <div class="mb-4">
-                            <label class="fw-bold small mb-2 d-block text-uppercase text-muted">Rentang Harga
-                                (Rp)</label>
+                            <label class="fw-bold small mb-2 d-block text-uppercase text-muted">Rentang Harga (Rp)</label>
                             <div class="row g-2">
                                 <div class="col-6">
                                     <div class="input-group input-group-sm">
@@ -132,56 +163,40 @@
     </div>
 </div>
 
-
 <script>
     function resetMobileFilter() {
         const form = document.getElementById('mobile-filter-form');
-
-        // Reset semua input text & number
         form.querySelectorAll('input[type="number"]').forEach(input => input.value = '');
-
-        // Uncheck semua checkbox
         form.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
-
-        // Otomatis kirim form yang sudah kosong ke HTMX untuk refresh list produk
         htmx.trigger(form, 'submit');
-
-        // Tutup modal (Opsional, jika ingin user melihat perubahannya langsung bisa biarkan terbuka)
         bootstrap.Modal.getInstance(document.getElementById('filterModal')).hide();
     }
 </script>
 
 <style>
-    /* Mengubah tampilan checkbox menjadi tombol agar lebih mudah diklik di HP */
     .btn-check:checked+.btn-outline-secondary {
         background-color: #ee4d2d;
         border-color: #ee4d2d;
         color: white;
     }
-
     .input-group-text {
         font-size: 0.75rem;
     }
-/* Tambahkan ini di bagian <style> jika ingin list bisa di-scroll */
-.modal-body {
-    max-height: 60vh;
-    overflow-y: auto;
-}
-
-.btn-danger {
-    background-color: #ee4d2d !important; /* Warna khas Shopee/Orange-Red */
-    border-color: #ee4d2d !important;
-}
-
-/* Animasi kecil supaya badge indikator terlihat hidup */
-.badge.rounded-pill {
-    animation: pulse-red 2s infinite;
-}
-
-@keyframes pulse-red {
-    0% { transform: translate(-50%, -50%) scale(1); }
-    50% { transform: translate(-50%, -50%) scale(1.1); }
-    100% { transform: translate(-50%, -50%) scale(1); }
-}
+    .modal-body {
+        max-height: 60vh;
+        overflow-y: auto;
+    }
+    .btn-danger {
+        background-color: #ee4d2d !important;
+        border-color: #ee4d2d !important;
+    }
+    .badge.rounded-pill {
+        animation: pulse-red 2s infinite;
+    }
+    @keyframes pulse-red {
+        0% { transform: translate(-50%, -50%) scale(1); }
+        50% { transform: translate(-50%, -50%) scale(1.1); }
+        100% { transform: translate(-50%, -50%) scale(1); }
+    }
 </style>
 {% endblock %}
